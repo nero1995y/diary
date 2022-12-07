@@ -2,6 +2,7 @@ package nero.diary.domain.user.entity;
 
 import lombok.Getter;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -12,5 +13,6 @@ public class User {
 
     @Id
     @GeneratedValue
+    @Column(name = "user_id")
     private Long id;
 }
