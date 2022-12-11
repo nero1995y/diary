@@ -1,6 +1,7 @@
 package nero.diary.domain.user.entity;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import nero.diary.domain.diary.entity.Diary;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,6 +26,7 @@ public class User {
     @JoinColumn(name = "diary_id")
     private Diary diary;
 
+    @Builder
     public User(String username, Diary diary) {
         this.username = username;
         
