@@ -26,10 +26,10 @@ class UserTest {
         em.persist(diary1);
         em.persist(diary2);
 
-        User user1 = new User("nero1", diary1);
-        User user2 = new User("nero2", diary1);
-        User user3 = new User("nero3", diary2);
-        User user4 = new User("nero4", diary2);
+        User user1 = new User("nero1","email","010","password", diary1);
+        User user2 = new User("nero1","email","010","password", diary1);
+        User user3 = new User("nero1","email","010","password", diary2);
+        User user4 = new User("nero1","email","010","password", diary2);
 
         em.persist(user1);
         em.persist(user2);
