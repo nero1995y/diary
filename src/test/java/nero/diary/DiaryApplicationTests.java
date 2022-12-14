@@ -21,17 +21,6 @@ class DiaryApplicationTests {
 
 	@Test
 	void contextLoads() {
-		User user = new User();
-		em.persist(user);
-
-		JPAQueryFactory query = new JPAQueryFactory(em);
-		QUser qUser = QUser.user;
-
-		User result = query.selectFrom(qUser).fetchOne();
-
-		assertThat(result).isEqualTo(user);
-
-
 
 	}
 
