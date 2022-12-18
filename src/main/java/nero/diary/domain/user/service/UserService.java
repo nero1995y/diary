@@ -3,6 +3,7 @@ package nero.diary.domain.user.service;
 import lombok.RequiredArgsConstructor;
 import nero.diary.domain.user.dto.UserResponseDto;
 import nero.diary.domain.user.dto.UserSaveRequestDto;
+import nero.diary.domain.user.dto.UserUpdateRequestDto;
 import nero.diary.domain.user.dto.UsersResponseDto;
 import nero.diary.domain.user.entity.User;
 import nero.diary.domain.user.exception.AlreadyUserException;
@@ -39,11 +40,29 @@ public class UserService {
     }
 
     public UserResponseDto findUser(String username) {
-        User user = userRepository.findByUsername(username).
-                orElseThrow(UserNotFoundException::new);
-
+        User user = getFindByUsername(username);
         return new UserResponseDto(user);
     }
 
+    @Transactional
+    public void update(String username, UserUpdateRequestDto requestDto) {
+
+        User user = getFindByUsername(username);
+        user.update(requestDto.toEntity());
+
+    }
+
+    @Transactional
+    public void remove(String username) {
+        User findByUsername = getFindByUsername(username);
+        userRepository.deleteById(findByUsername.getId());
+    }
+
+
+
+    public User getFindByUsername(String username) {
+        return userRepository.findByUsername(username).
+                orElseThrow(UserNotFoundException::new);
+    }
 
 }

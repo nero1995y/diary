@@ -52,4 +52,13 @@ public class User {
         this.diary = diary;
         diary.getUsers().add(this);
     }
+
+
+    public void update(User user) {
+        this.username = user.getUsername();
+        this.email = user.getEmail();
+        this.password = user.getPassword();
+        this.phone = user.getPhone();
+    }
+
 }
