@@ -2,6 +2,7 @@ package nero.diary.domain.user.service;
 
 import nero.diary.domain.user.dto.UserResponseDto;
 import nero.diary.domain.user.dto.UserSaveRequestDto;
+import nero.diary.domain.user.dto.UserUpdateRequestDto;
 import nero.diary.domain.user.dto.UsersResponseDto;
 import nero.diary.domain.user.entity.User;
 import nero.diary.domain.user.exception.AlreadyUserException;
@@ -11,7 +12,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -138,4 +138,44 @@ class UserServiceTest {
                 .build();
     }
 
+
+    @DisplayName("유저 업데이트한다")
+    @Test
+    void update() {
+        // given
+        UserSaveRequestDto requestDto = getUserSaveRequestDto();
+
+        userService.register(requestDto);
+
+        UserUpdateRequestDto updateRequestDto = UserUpdateRequestDto.builder()
+                .username("nero")
+                .email("update@gmail.com")
+                .password("updatePassword")
+                .phone("01012222")
+                .build();
+
+        // when
+        userService.update(requestDto.getUsername(), updateRequestDto);
+
+        // then
+        UserResponseDto responseDto = userService.findUser(requestDto.getUsername());
+        assertThat(responseDto.getUsername()).isEqualTo(requestDto.getUsername());
+
+    }
+
+    @DisplayName("유저를 삭제한다")
+    @Test
+    void delete() {
+        // given
+        UserSaveRequestDto requestDto = getUserSaveRequestDto();
+        userService.register(requestDto);
+
+        // when
+        userService.remove(requestDto.getUsername());
+
+        // then
+        assertThatThrownBy(() -> userService.findUser(requestDto.getUsername()))
+                .isInstanceOf(UserNotFoundException.class);
+
+    }
 }
