@@ -1,37 +1,19 @@
-<template>
-  <div id="app">
-    <MainMenu/>
-    <SideBar class="side-bar"/>
-  </div>
-</template>
-
-<script>
-import MainMenu from "@/components/MainMenu";
-import SideBar from "@/components/SiderBar";
-
-export default {
-  name: 'App',
-  components: {
-    SideBar,
-    MainMenu
-  }
-}
+<script setup lang="ts">
+import { RouterLink, RouterView } from "vue-router";
 </script>
 
-<style>
-#app {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-}
+<template>
+  <header>
+      <nav>
+        <RouterLink to="/">Home</RouterLink>
+        <RouterLink to="/write">글 작성</RouterLink>
+        <RouterLink to="/user">회원 가입</RouterLink>
+      </nav>
+  </header>
 
-.side-bar {
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-}
+  <RouterView />
+</template>
+
+<style>
 
 </style>
