@@ -10,12 +10,14 @@ import nero.diary.domain.user.entity.User;
 @AllArgsConstructor
 public class UserResponseDto {
 
+    private Long id;
     private String username;
     private String email;
     private String phone;
     private String password;
 
     public UserResponseDto(User user) {
+        this.id = user.getId();
         this.username = user.getUsername();
         this.email = user.getEmail();
         this.phone = user.getPhone();
