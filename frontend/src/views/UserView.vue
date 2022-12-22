@@ -1,11 +1,14 @@
 <script setup lang="ts">
 import {ref} from "vue";
 import axios from "axios";
+import {useRouter} from "vue-router";
 
-const email = ref("")
-const username = ref("")
-const password = ref("")
-const phone = ref("")
+const email = ref("");
+const username = ref("");
+const password = ref("");
+const phone = ref("");
+
+const router = useRouter();
 
 const user = function () {
   axios.post('api/v1/user',{
@@ -14,6 +17,9 @@ const user = function () {
     password: password.value,
     phone: phone.value,
   })
+  .then(() => {
+    router.replace({name: "home"})
+  });
 }
 
 </script>
