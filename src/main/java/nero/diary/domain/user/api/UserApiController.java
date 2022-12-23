@@ -38,6 +38,16 @@ public class UserApiController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("api/v1/user/{id}")
+    public ResponseEntity<UserResponseDto> findByUserId(@PathVariable Long id){
+
+        UserResponseDto response = userService.findUserId(id);
+
+        return ResponseEntity.ok(response);
+    }
+
+
+
     @PatchMapping("api/v1/user/{username}")
     public ResponseEntity<Void> update(@PathVariable String username,
                                        @RequestBody @Valid UserUpdateRequestDto requestDto){
