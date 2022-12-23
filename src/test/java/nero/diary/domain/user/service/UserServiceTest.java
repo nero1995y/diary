@@ -129,6 +129,23 @@ class UserServiceTest {
 
     }
 
+    @DisplayName("유저 단건을 ID로 조회한다")
+    @Test
+    void finnUserId() {
+        // given
+        UserSaveRequestDto requestDto = getUserSaveRequestDto();
+
+        userService.register(requestDto);
+
+        // when
+        UserResponseDto findUser = userService.findUser(requestDto.getUsername());
+        UserResponseDto findUserId = userService.findUserId(findUser.getId());
+
+        // then
+        assertThat(findUserId.getUsername()).isEqualTo(requestDto.getUsername());
+
+    }
+
     private UserSaveRequestDto getUserSaveRequestDto() {
         return UserSaveRequestDto.builder()
                 .username("nero")
