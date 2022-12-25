@@ -1,9 +1,9 @@
 <template>
   <el-header class="header">
-    <el-menu mode="horizontal">
-      <el-menu-item index="1">Home</el-menu-item>
-      <el-menu-item index="2">글작성</el-menu-item>
-      <el-menu-item index="3">회원 가입</el-menu-item>
+    <el-menu mode="horizontal" router>
+      <el-menu-item index="/">Home</el-menu-item>
+      <el-menu-item index="/write">글작성</el-menu-item>
+      <el-menu-item index="/user">회원 가입</el-menu-item>
     </el-menu>
   </el-header>
 </template>
