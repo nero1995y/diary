@@ -30,14 +30,6 @@ public class UserApiController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("api/v1/user/{username}")
-    public ResponseEntity<UserResponseDto> findByUser(@PathVariable String username){
-
-        UserResponseDto response = userService.findUser(username);
-
-        return ResponseEntity.ok(response);
-    }
-
     @GetMapping("api/v1/user/{id}")
     public ResponseEntity<UserResponseDto> findByUserId(@PathVariable Long id){
 
@@ -46,13 +38,11 @@ public class UserApiController {
         return ResponseEntity.ok(response);
     }
 
-
-
-    @PatchMapping("api/v1/user/{username}")
-    public ResponseEntity<Void> update(@PathVariable String username,
+    @PatchMapping("api/v1/user/{id}")
+    public ResponseEntity<Void> update(@PathVariable Long id,
                                        @RequestBody @Valid UserUpdateRequestDto requestDto){
 
-        userService.update(username, requestDto);
+        userService.update(id, requestDto);
 
         return ResponseEntity.ok().build();
     }

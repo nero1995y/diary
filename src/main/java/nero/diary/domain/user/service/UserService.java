@@ -51,9 +51,9 @@ public class UserService {
     }
 
     @Transactional
-    public void update(String username, UserUpdateRequestDto requestDto) {
+    public void update(Long id, UserUpdateRequestDto requestDto) {
 
-        User user = getFindByUsername(username);
+        User user = getFindByUserId(id);
         user.update(requestDto.toEntity());
 
     }
@@ -69,6 +69,11 @@ public class UserService {
     public User getFindByUsername(String username) {
         return userRepository.findByUsername(username).
                 orElseThrow(UserNotFoundException::new);
+    }
+
+    public User getFindByUserId(Long id) {
+        return userRepository.findById(id)
+                .orElseThrow(UserNotFoundException::new);
     }
 
 }
