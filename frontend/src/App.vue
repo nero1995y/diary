@@ -1,17 +1,13 @@
-<script setup lang="ts">
+<script setup lang="ts" xmlns="http://www.w3.org/1999/html">
 import { RouterLink, RouterView } from "vue-router";
+import Header from "@/components/Header.vue";
+import Content from "@/components/Content.vue";
 </script>
 
 <template>
-  <header>
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/write">글 작성</RouterLink>
-        <RouterLink to="/user">회원 가입</RouterLink>
-      </nav>
-  </header>
+  <Header/>
+  <Content/>
 
-  <RouterView />
 </template>
 
 <style>
