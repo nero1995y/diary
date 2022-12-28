@@ -24,6 +24,7 @@
 ### 데브옵스
 - AWS
 - MySQL (RDB)
+- Spring Docs
 
 *** 
 ### UI (예정)
@@ -41,3 +42,7 @@
   - error(예외 핸들링)
   - util(유틸성 클래스)
   
+### 주요 버전 
+- gradle 7.5.1
+- springframework - version 2.7.6
+- Java 11
