@@ -91,6 +91,12 @@ asciidoctor {
 //Packaging the Documentation
 bootJar {
 	dependsOn asciidoctor
+
+	copy {
+		from asciidoctor.outputDir
+		into "src/main/resources/static/docs"
+	}
+
 	from ("${asciidoctor.outputDir}/html5") {
 		into 'static/docs'
 	}
