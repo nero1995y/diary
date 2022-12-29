@@ -171,11 +171,12 @@ class UserServiceTest {
                 .phone("01012222")
                 .build();
 
+        UserResponseDto responseDto = userService.findUser(requestDto.getUsername());
+
         // when
-        userService.update(requestDto.getUsername(), updateRequestDto);
+        userService.update(responseDto.getId(), updateRequestDto);
 
         // then
-        UserResponseDto responseDto = userService.findUser(requestDto.getUsername());
         assertThat(responseDto.getUsername()).isEqualTo(requestDto.getUsername());
 
     }
