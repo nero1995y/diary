@@ -12,6 +12,7 @@ import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDoc
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.restdocs.RestDocumentationExtension;
+import org.springframework.restdocs.snippet.Attributes;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
@@ -21,6 +22,7 @@ import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuild
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
+import static org.springframework.restdocs.snippet.Attributes.key;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -53,7 +55,7 @@ public class UserApiControllerDOCTest {
         this.mockMvc.perform(get("/api/v1/user/{userId}", response.getId())
                         .accept(APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andDo(document("index", pathParameters(
+                .andDo(document("user-inquiry", pathParameters(
                         parameterWithName("userId").description("유저 ID")
                         ),
 
@@ -91,11 +93,12 @@ public class UserApiControllerDOCTest {
                         .content(json))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andDo(document("index",
+                .andDo(document("user-register",
                         requestFields(
-                                fieldWithPath("username").description("이름"),
+                                fieldWithPath("username").description("이름").attributes(
+                                        Attributes.key("constraint").value("이름을 입력하는 란")),
                                 fieldWithPath("email").description("이메일"),
-                                fieldWithPath("phone").description("전화 번호"),
+                                fieldWithPath("phone").description("전화 번호").optional(),
                                 fieldWithPath("password").description("비밀번호")
                         )
                 ));
