@@ -3,6 +3,7 @@ import HomeView from "../views/HomeView.vue";
 import WriteView from "../views/WriteView.vue";
 import UserCreateView from "../views/user/UserCreateView.vue";
 import UserReadView from "../views/user/UserReadView.vue";
+import UserListView from "../views/user/UserListView.vue";
 import UserEditView from "../views/user/UserEditView.vue";
 import ReadView from "../views/post/ReadView.vue";
 import EditView from "../views/EditView.vue";
@@ -48,11 +49,17 @@ const router = createRouter({
       props: true
     },
     {
+      path: '/users',
+      name: 'usersList',
+      component: UserListView,
+    },
+    {
       path: '/user/edit/:userId',
       name: 'userEdit',
       component: UserEditView,
       props: true
-    }
+    },
+
   ],
 });
 

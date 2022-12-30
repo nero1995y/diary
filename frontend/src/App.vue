@@ -1,5 +1,4 @@
 <script setup lang="ts" xmlns="http://www.w3.org/1999/html">
-import { RouterLink, RouterView } from "vue-router";
 import Header from "@/components/Header.vue";
 import Content from "@/components/Content.vue";
 </script>
@@ -7,9 +6,7 @@ import Content from "@/components/Content.vue";
 <template>
   <Header/>
   <Content/>
-
 </template>
 
 <style>
-
 </style>

@@ -31,7 +31,6 @@ onMounted(() => {
       })
 })
 
-
 </script>
 
 <template>
@@ -39,5 +38,4 @@ onMounted(() => {
   <p>{{user.email}}</p>
   <p>{{user.phone}}</p>
   <el-button type="warning" @click="moveToEdit()">수정</el-button>
-
 </template>
