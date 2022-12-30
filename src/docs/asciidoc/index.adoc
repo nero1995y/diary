@@ -1,24 +1,28 @@
 = diary 로그 API
-:toc:
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels:2
+:sectlinks:
 
-
-== 글 단건 조회
+== 유저 단건 조회
 
 === 요청
-include::{snippets}/index/http-request.adoc[]
-include::{snippets}/index/path-parameters.adoc[]
-include::{snippets}/index/request-fields.adoc[]
-
+include::{snippets}/user-inquiry/http-request.adoc[]
+include::{snippets}/user-inquiry/path-parameters.adoc[]
 
 === 응답
 
-include::{snippets}/index/http-response.adoc[]
-include::{snippets}/index/response-fields.adoc[]
+include::{snippets}/user-inquiry/http-response.adoc[]
+include::{snippets}/user-inquiry/response-fields.adoc[]
 
+== 유저 등록
 
-=== curl
+=== 요청
+include::{snippets}/user-register/http-request.adoc[]
+include::{snippets}/user-register/request-fields.adoc[]
 
-include::{snippets}/index/curl-request.adoc[]
+=== 응답
 
-
-
+include::{snippets}/user-register/http-response.adoc[]
