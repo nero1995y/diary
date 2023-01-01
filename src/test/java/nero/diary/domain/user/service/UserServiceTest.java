@@ -8,6 +8,7 @@ import nero.diary.domain.user.entity.User;
 import nero.diary.domain.user.exception.AlreadyUserException;
 import nero.diary.domain.user.exception.UserNotFoundException;
 import nero.diary.domain.user.repository.UserRepository;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,12 @@ class UserServiceTest {
 
     @Autowired
     private UserRepository userRepository;
+
+
+    @AfterEach
+    public void cleanup() {
+        userRepository.deleteAll();
+    }
 
     @DisplayName("등록한다_유저를")
     @Test

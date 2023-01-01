@@ -3,7 +3,9 @@ package nero.diary.domain.user.api;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import nero.diary.domain.user.dto.UserResponseDto;
 import nero.diary.domain.user.dto.UserSaveRequestDto;
+import nero.diary.domain.user.repository.UserRepository;
 import nero.diary.domain.user.service.UserService;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -36,6 +38,14 @@ public class UserApiControllerDOCTest {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @AfterEach
+    public void cleanup() {
+        userRepository.deleteAll();
+    }
 
     @Test
     @DisplayName("단건 조회 문서")

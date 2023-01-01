@@ -2,6 +2,7 @@ package nero.diary.domain.user.repository;
 
 import nero.diary.domain.user.entity.User;
 import nero.diary.domain.user.exception.UserNotFoundException;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +22,13 @@ class UserRepositoryTest {
     @Autowired
     UserRepository userRepository;
 
+    @AfterEach
+    public void cleanup() {
+        userRepository.deleteAll();
+    }
+
     @DisplayName("저장한다 유저를")
     @Test
-    @Rollback(value = false)
     void save() {
         // given
         User user = User.builder().username("nero").build();
