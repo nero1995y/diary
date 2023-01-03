@@ -93,6 +93,8 @@ asciidoctor {
 
 //Packaging the Documentation
 bootJar {
+
+	enabled = true
 	dependsOn asciidoctor
 
 	copy {
