@@ -4,6 +4,4 @@ spring:
   jpa:
     properties:
       hibernate:
-        dialect: org.hibernate.MySQL5InnoDBDialect
-#  session:
-#    store-type: jdbc
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
