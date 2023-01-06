@@ -20,15 +20,25 @@ public class Diary {
     @Column(name = "diary_name")
     private String name;
 
-    @OneToMany(mappedBy = "diary")
-    private List<User> users = new ArrayList<>();
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    public Diary(String name, List<User> users) {
+    public Diary(String name, User user) {
         this.name = name;
-        this.users = users;
+
+        if (user != null) {
+            changeUser(user);
+        }
     }
 
     public Diary(String name) {
         this.name = name;
     }
+
+    public void changeUser(User user) {
+        this.user = user;
+        user.getDiaryList().add(this);
+    }
+
 }

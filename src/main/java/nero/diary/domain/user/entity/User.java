@@ -7,11 +7,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "USERS")
+@Table(name = "users")
 public class User {
 
     @Id
@@ -31,28 +33,25 @@ public class User {
     @Column(name = "user_password")
     private String password;
 
+    @OneToMany(mappedBy = "user")
+    private List<Diary> diaryList = new ArrayList<>();
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "diary_id")
-    private Diary diary;
 
     @Builder
-    public User(String username, String email, String phone, String password, Diary diary) {
+    public User(String username, String email, String phone, String password, List<Diary> diaryList) {
         this.username = username;
         this.email = email;
         this.phone = phone;
         this.password = password;
         
-        if(diary != null) {
-            changeDiary(diary);
+        if(diaryList != null) {
+            changeDiary(diaryList);
         }
     }
 
-    public void changeDiary(Diary diary) {
-        this.diary = diary;
-        diary.getUsers().add(this);
+    public void changeDiary(List<Diary> diaryList) {
+        this.diaryList = diaryList;
     }
-
 
     public void update(User user) {
         this.username = user.getUsername();
