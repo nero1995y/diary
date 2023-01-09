@@ -92,7 +92,7 @@ class UserServiceTest {
     }
 
 
-    @DisplayName("유저가 존재할시 등록 예외가 발생한다")
+    @DisplayName("유저 리스트를 조회한다")
     @Test
     void findAll() {
         // given
