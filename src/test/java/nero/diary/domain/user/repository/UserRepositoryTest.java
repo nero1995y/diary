@@ -92,8 +92,40 @@ class UserRepositoryTest {
         // when
         userRepository.delete(findUser);
 
-        //then
+        // then
         boolean present = userRepository.findById(saveUser.getId()).isPresent();
         assertThat(present).isEqualTo(false);
+    }
+
+
+    @DisplayName("이메일과 비밀번호를 조회한다 유저의")
+    @Test
+    void findByEmailAndPassword() {
+        // given
+        User user = User.builder()
+                .username("nero")
+                .password("12345")
+                .email("nero1995y@naver.com")
+                .phone("01022423531")
+                .build();
+
+        User saveUser = userRepository.save(user);
+
+        // when
+        Optional<User> findUser = userRepository.findByEmailAndPassword(
+                saveUser.getEmail(),
+                saveUser.getPassword()
+        );
+
+        // then
+        User findUserEntity = findUser.orElseThrow(UserNotFoundException::new);
+
+        String email = findUserEntity.getEmail();
+        String password = findUserEntity.getPassword();
+
+
+        assertThat(email).isEqualTo(user.getEmail());
+        assertThat(password).isEqualTo(user.getPassword());
+
     }
 }
