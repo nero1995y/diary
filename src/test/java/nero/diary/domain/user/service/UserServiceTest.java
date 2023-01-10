@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
-
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
 @TestPropertySource("classpath:application.yml")
@@ -163,6 +163,23 @@ class UserServiceTest {
                 .password("12345")
                 .build();
     }
+
+    @DisplayName("유저 조회 없을때 예외가 발생한다")
+    @Test
+    void findUserIdException(){
+        // given
+        UserSaveRequestDto requestDto = getUserSaveRequestDto();
+
+        userService.register(requestDto);
+        UserResponseDto findUser = userService.findUser(requestDto.getUsername());
+
+        // when then
+        assertThrows(UserNotFoundException.class, () -> {
+           userService.findUserId(findUser.getId()+ 1L);
+        });
+    }
+
+
 
 
     @DisplayName("유저 업데이트한다")
