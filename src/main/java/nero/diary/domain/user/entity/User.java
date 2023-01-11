@@ -5,6 +5,7 @@ import lombok.Builder;
 import nero.diary.domain.diary.entity.Diary;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import nero.diary.domain.user.entity.auth.Session;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -37,6 +38,10 @@ public class User {
     private List<Diary> diaryList = new ArrayList<>();
 
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Session> sessions = new ArrayList<>();
+
+
     @Builder
     public User(String username, String email, String phone, String password, List<Diary> diaryList) {
         this.username = username;
@@ -58,6 +63,17 @@ public class User {
         this.email = user.getEmail();
         this.password = user.getPassword();
         this.phone = user.getPhone();
+    }
+
+    public Session addSession() {
+        Session session = Session.builder()
+                .user(this)
+                .build();
+
+        sessions.add(session);
+
+        return session;
+
     }
 
 }
