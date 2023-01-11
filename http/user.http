@@ -1,0 +1,15 @@
+###
+GET http://localhost:8080/foo
+Content-Type: application/json
+Cookie: SESSION=1d8368b2-9d0b-45a2-89f0-6a2c565d3e5a
+
+###
+GET http://localhost:8080/bar
+
+###
+DELETE http://localhost:8080/api/v1/user/{{id}}
+
+###
+PATCH http://localhost:8080/api/v1/user/{{id}}
+
+
