@@ -1,9 +1,9 @@
 package nero.diary.domain.user.service;
 
-import nero.diary.domain.user.dto.UserResponseDto;
-import nero.diary.domain.user.dto.UserSaveRequestDto;
-import nero.diary.domain.user.dto.UserUpdateRequestDto;
-import nero.diary.domain.user.dto.UsersResponseDto;
+import nero.diary.domain.user.dto.user.UserResponseDto;
+import nero.diary.domain.user.dto.user.UserSaveRequestDto;
+import nero.diary.domain.user.dto.user.UserUpdateRequestDto;
+import nero.diary.domain.user.dto.user.UsersResponseDto;
 import nero.diary.domain.user.entity.User;
 import nero.diary.domain.user.exception.AlreadyUserException;
 import nero.diary.domain.user.exception.UserNotFoundException;

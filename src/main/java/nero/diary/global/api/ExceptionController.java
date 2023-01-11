@@ -1,4 +1,4 @@
-package nero.diary.global.controller;
+package nero.diary.global.api;
 
 import nero.diary.domain.user.exception.UserNotFoundException;
 import nero.diary.global.response.ErrorResponse;
