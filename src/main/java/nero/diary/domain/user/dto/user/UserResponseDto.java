@@ -1,9 +1,12 @@
-package nero.diary.domain.user.dto;
+package nero.diary.domain.user.dto.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import nero.diary.domain.user.entity.User;
+import nero.diary.domain.user.entity.auth.Session;
+
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -16,12 +19,16 @@ public class UserResponseDto {
     private String phone;
     private String password;
 
+    private List<Session> sessions;
+
+
     public UserResponseDto(User user) {
         this.id = user.getId();
         this.username = user.getUsername();
         this.email = user.getEmail();
         this.phone = user.getPhone();
         this.password = user.getPassword();
+        this.sessions = user.getSessions();
 
     }
 }

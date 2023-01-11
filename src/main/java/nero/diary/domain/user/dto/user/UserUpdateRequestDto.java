@@ -1,4 +1,4 @@
-package nero.diary.domain.user.dto;
+package nero.diary.domain.user.dto.user;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -7,15 +7,17 @@ import nero.diary.domain.user.entity.User;
 
 @Getter
 @NoArgsConstructor
-public class UserSaveRequestDto {
-
+public class UserUpdateRequestDto {
     private String username;
     private String email;
-    private String phone;
     private String password;
+    private String phone;
 
     @Builder
-    public UserSaveRequestDto(String username, String email, String password, String phone) {
+    public UserUpdateRequestDto(String username,
+                                String email,
+                                String password,
+                                String phone) {
         this.username = username;
         this.email = email;
         this.password = password;
@@ -23,12 +25,12 @@ public class UserSaveRequestDto {
     }
 
     public User toEntity() {
-
         return User.builder()
                 .username(this.username)
                 .email(this.email)
-                .phone(this.phone)
                 .password(this.password)
+                .phone(this.phone)
                 .build();
+
     }
 }

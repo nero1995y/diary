@@ -1,4 +1,4 @@
-package nero.diary.domain.user.dto;
+package nero.diary.domain.user.dto.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
