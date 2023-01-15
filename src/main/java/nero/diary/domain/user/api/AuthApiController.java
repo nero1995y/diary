@@ -19,7 +19,7 @@ public class AuthApiController {
 
     private final AuthService authService;
 
-    @PostMapping("/auth/login")
+    @PostMapping("api/auth/login")
     public ResponseEntity<SessionResponseDto> login(@RequestBody LoginRequestDto login) {
 
         SessionResponseDto sessionResponseDto = authService.login(login);
