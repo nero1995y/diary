@@ -1,6 +1,7 @@
 package nero.diary.domain.diary.entity;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import nero.diary.domain.user.entity.User;
@@ -20,12 +21,19 @@ public class Diary {
     @Column(name = "diary_name")
     private String name;
 
+
+    @Column(name = "diary_content")
+    @Lob
+    private String content;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
-    public Diary(String name, User user) {
+    @Builder
+    public Diary(String name, String content, User user) {
         this.name = name;
+        this.content = content;
 
         if (user != null) {
             changeUser(user);
@@ -38,7 +46,6 @@ public class Diary {
 
     public void changeUser(User user) {
         this.user = user;
-        user.getDiaryList().add(this);
     }
 
 }
