@@ -13,13 +13,16 @@ public class DiaryWriteRequestDto {
     private String name;
     private String content;
 
+    private String username;
+
     private User user;
 
     @Builder
-    public DiaryWriteRequestDto(String name, String content, User user) {
+    public DiaryWriteRequestDto(String name, String content, String username, User user) {
         this.name = name;
         this.content = content;
-        this.user =user;
+        this.username = username;
+        this.user  = user;
     }
 
     public Diary toEntity() {
@@ -27,7 +30,7 @@ public class DiaryWriteRequestDto {
         return Diary.builder()
                 .name(this.name)
                 .content(this.content)
-                .user(user)
+                .user(this.user)
                 .build();
     }
 }

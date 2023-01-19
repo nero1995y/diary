@@ -74,4 +74,27 @@ class DiaryServiceTest {
         verify(diaryService, times(1)).findDiary(request.getName(), user.getUsername());
     }
 
+    @DisplayName("다이어리를 유저 이름으로 찾는다")
+    @Test
+    void findByUsername() {
+        // given
+        DiaryWriteRequestDto request = DiaryWriteRequestDto.builder()
+                .name("testTitle")
+                .content("테스트 내용입니다")
+                .build();
+
+        User user = User.builder().username("nero").build();
+
+        List<Diary> diaries = Arrays.asList(request.toEntity());
+
+
+        doReturn(Optional.of(diaries)).when(diaryRepository).findByUser(user);
+        doReturn(user).when(userService).getFindByUsername(any());
+
+        // when
+        diaryService.findDiaryByUsername(user.getUsername());
+
+        // then
+        verify(diaryService, times(1)).findDiaryByUsername(user.getUsername());
+    }
 }

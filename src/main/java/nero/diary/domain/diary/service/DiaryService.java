@@ -8,6 +8,7 @@ import nero.diary.domain.diary.exception.DiaryNotFoundException;
 import nero.diary.domain.diary.repository.DiaryRepository;
 import nero.diary.domain.user.dto.user.UserResponseDto;
 import nero.diary.domain.user.entity.User;
+import nero.diary.domain.user.exception.UserNotFoundException;
 import nero.diary.domain.user.service.UserService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,8 +23,13 @@ public class DiaryService {
 
     private final UserService userService;
 
+    @Transactional
     public void write(DiaryWriteRequestDto requestDto) {
-        diaryRepository.save(requestDto.toEntity());
+
+        Diary diary = getDiary(requestDto,
+                userService.getFindByUsername(requestDto.getUsername()));
+
+        diaryRepository.save(diary);
     }
 
     public DiariesResponseDto findDiary(String name, String username) {
@@ -35,5 +41,23 @@ public class DiaryService {
                 .orElseThrow(DiaryNotFoundException::new);
 
         return DiariesResponseDto.of(diaries);
+    }
+
+    public DiariesResponseDto findDiaryByUsername(String username) {
+        User user = userService.getFindByUsername(username);
+
+        List<Diary> diaries = diaryRepository.findByUser(user)
+                .orElseThrow(UserNotFoundException::new);
+
+        return DiariesResponseDto.of(diaries);
+    }
+
+    private Diary getDiary(DiaryWriteRequestDto requestDto, User user) {
+        return DiaryWriteRequestDto.builder()
+                        .name(requestDto.getName())
+                        .content(requestDto.getName())
+                        .user(user)
+                        .build()
+                .toEntity();
     }
 }

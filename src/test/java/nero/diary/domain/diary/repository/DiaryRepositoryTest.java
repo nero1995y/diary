@@ -156,4 +156,38 @@ class DiaryRepositoryTest {
         assertThat(isNullEntity).isEqualTo(false);
 
     }
+
+    @DisplayName("유저이름으로 다이어리를 찾는다")
+    @Test
+    void findByUser() {
+        // given
+        User user = User.builder()
+                .username("nero")
+                .email("test@gmail.com")
+                .phone("01022423531")
+                .password("12345")
+                .build();
+
+        Diary diaryEntity = Diary.builder()
+                .name("testName")
+                .content("testContent")
+                .user(user)
+                .build();
+
+        Diary diaryEntity2 = Diary.builder()
+                .name("testName2")
+                .content("testContent2")
+                .user(user)
+                .build();
+
+        User saveUser = userRepository.save(user);
+        diaryRepository.save(diaryEntity);
+        diaryRepository.save(diaryEntity2);
+
+        // when
+        List<Diary> diaries = diaryRepository.findByUser(saveUser)
+                .orElseThrow(DiaryNotFoundException::new);
+
+        assertThat(diaries).contains(diaryEntity, diaryEntity2);
+    }
 }
