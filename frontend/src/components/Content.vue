@@ -1,6 +1,6 @@
 <template>
-  <el-main class="content">
-    <RouterView />
+    <el-main class="content">
+     <RouterView />
   </el-main>
 </template>
 
