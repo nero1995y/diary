@@ -19,16 +19,12 @@ public class UserResponseDto {
     private String phone;
     private String password;
 
-    private List<Session> sessions;
-
-
     public UserResponseDto(User user) {
         this.id = user.getId();
         this.username = user.getUsername();
         this.email = user.getEmail();
         this.phone = user.getPhone();
         this.password = user.getPassword();
-        this.sessions = user.getSessions();
 
     }
 }

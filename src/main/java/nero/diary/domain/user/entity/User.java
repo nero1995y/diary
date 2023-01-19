@@ -1,5 +1,6 @@
 package nero.diary.domain.user.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
 import lombok.Builder;
 import nero.diary.domain.diary.entity.Diary;
@@ -38,6 +39,7 @@ public class User {
     private List<Diary> diaryList = new ArrayList<>();
 
 
+    @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Session> sessions = new ArrayList<>();
 
