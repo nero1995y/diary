@@ -16,12 +16,8 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 @Slf4j
 @RequiredArgsConstructor
 public class AuthResolver implements HandlerMethodArgumentResolver {
-
-    private AuthService authService;
-
-    public AuthResolver(AuthService authService ) {
-        this.authService = authService;
-    }
+    
+    private final AuthService authService;
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
@@ -37,8 +33,7 @@ public class AuthResolver implements HandlerMethodArgumentResolver {
             throw new Unauthorized();
         }
 
-        Session session = authService.findSession(accessToken);
-
+         Session session = authService.findSession(accessToken);
         return new UserSession(session.getUser().getId());
 
     }
