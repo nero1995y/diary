@@ -39,3 +39,4 @@ out/
 ### yml ###
 ##application.yml
 src/main/resources/static/docs/index.html
+.DS_Store
