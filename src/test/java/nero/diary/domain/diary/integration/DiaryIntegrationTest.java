@@ -43,8 +43,8 @@ public class DiaryIntegrationTest {
 
     @BeforeEach
     public void cleanup() {
-        userRepository.deleteAll();
         diaryRepository.deleteAll();
+        userRepository.deleteAll();
     }
 
 
