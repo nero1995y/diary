@@ -18,8 +18,6 @@ public class DiaryApiController {
     @PostMapping("/api/v1/diary")
     public ResponseEntity<Void> write(@RequestBody DiaryWriteRequestDto requestDto) {
 
-        log.info(">>> {}" ,requestDto.toString());
-
         diaryService.write(requestDto);
         return ResponseEntity.ok().build();
     }
