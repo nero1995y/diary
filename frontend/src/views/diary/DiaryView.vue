@@ -29,19 +29,21 @@ const moveToDetail = function(row: any){
 
 <template>
   <span class="text-large font-600 mr-3">다이어리 페이지</span>
-  <div class="container-fluid py-4 p-5">
-    <Input/>
-    <div class="row">
-      <div v-for="diary in diaryList" :key="diary.id" class="text-center h-100">
+  <el-row>
+    <el-col :span="8"></el-col>
+
+    <el-col :span="8">
+      <Input/>
+      <div v-for="diary in diaryList" :key="diary.id" class="text-center">
         <div class="m-4">
-          <div class="card">
+          <el-card>
             <h5 class="card-title m-5">{{diary.name}}</h5>
             <p class="card-text">작성자 이름 넣기 2023.01.01</p>
-          </div>
+          </el-card>
         </div>
       </div>
-    </div>
-  </div>
+    </el-col>
+  </el-row>
 </template>
 
 <style scoped lang="scss">

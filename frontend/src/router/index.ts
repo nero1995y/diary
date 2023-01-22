@@ -1,12 +1,13 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
-import WriteView from "../views/WriteView.vue";
 import UserCreateView from "../views/user/UserCreateView.vue";
 import UserReadView from "../views/user/UserReadView.vue";
 import UserListView from "../views/user/UserListView.vue";
 import UserEditView from "../views/user/UserEditView.vue";
 import LoginView from  "../views/login/LoginView.vue";
+import AdminView from "../views/admin/adminView.vue";
 import DiaryView from "../views/diary/DiaryView.vue";
+import DiaryWriteView from "../views/diary/DiaryWriteView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -15,11 +16,6 @@ const router = createRouter({
       path: "/",
       name: "home",
       component: HomeView,
-    },
-    {
-      path: '/write',
-      name: 'write',
-      component: WriteView,
     },
     {
       path: '/user',
@@ -48,12 +44,22 @@ const router = createRouter({
       name: 'login',
       component: LoginView,
     },
-
     {
-      path: '/diary',
-      name: 'diary',
+      path: '/diaryList',
+      name: 'diaryList',
       component: DiaryView,
     },
+    {
+      path: '/diary',
+      name: 'DiaryWrite',
+      component: DiaryWriteView,
+    },
+    {
+      path: '/admin',
+      name: 'admin',
+      component: AdminView,
+    },
+
   ],
 });
 
