@@ -15,6 +15,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.restdocs.snippet.Attributes;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
@@ -24,6 +25,7 @@ import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuild
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -48,6 +50,7 @@ public class UserApiControllerDOCTest {
 
     @Test
     @DisplayName("단건 조회 문서")
+    @WithMockUser(roles = "USER")
     void singleSearchUser() throws Exception {
         // given
         UserSaveRequestDto request = UserSaveRequestDto.builder()
@@ -83,6 +86,7 @@ public class UserApiControllerDOCTest {
 
     @Test
     @DisplayName("유저 등록")
+    @WithMockUser(roles = "USER")
     void createUser() throws Exception {
         // given
         UserSaveRequestDto request = UserSaveRequestDto.builder()
@@ -99,7 +103,8 @@ public class UserApiControllerDOCTest {
         this.mockMvc.perform(post("/api/v1/user")
                         .contentType(APPLICATION_JSON)
                         .accept(APPLICATION_JSON)
-                        .content(json))
+                        .content(json)
+                        .with(csrf()))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andDo(document("user-register",

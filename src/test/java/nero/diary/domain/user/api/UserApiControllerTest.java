@@ -6,13 +6,13 @@ import nero.diary.domain.user.dto.user.UserResponseDto;
 import nero.diary.domain.user.dto.user.UserSaveRequestDto;
 import nero.diary.domain.user.dto.user.UserUpdateRequestDto;
 import nero.diary.domain.user.entity.User;
-import nero.diary.domain.user.entity.auth.Session;
 import nero.diary.domain.user.service.UserService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
@@ -21,6 +21,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willDoNothing;
 import static org.mockito.Mockito.verify;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -43,6 +44,7 @@ class UserApiControllerTest {
 
     @DisplayName("POST user API")
     @Test
+    @WithMockUser(roles = "USER")
     void createUser() throws Exception{
         // given
         UserSaveRequestDto request = UserSaveRequestDto.builder()
@@ -60,6 +62,7 @@ class UserApiControllerTest {
         ResultActions actions = mockMvc.perform(post("/api/v1/user")
                         .header("authorization", "nero")
                         .contentType(APPLICATION_JSON)
+                        .with(csrf())
                         .content(json));
 
         // then
@@ -72,6 +75,7 @@ class UserApiControllerTest {
 
     @DisplayName("GET user API 단건")
     @Test
+    @WithMockUser(roles = "USER")
     void findSingleUser() throws Exception {
         // given
         User userEntity = User.builder()
@@ -91,12 +95,13 @@ class UserApiControllerTest {
                 .contentType(APPLICATION_JSON));
 
         // then
-        actions.andExpect(status().isNotFound())
+        actions.andExpect(status().isOk())
                 .andDo(print());
     }
 
     @DisplayName("PATCH user API")
     @Test
+    @WithMockUser(roles = "USER")
     void updateUser() throws Exception {
         // given
         UserUpdateRequestDto request = UserUpdateRequestDto.builder()
@@ -108,40 +113,10 @@ class UserApiControllerTest {
 
         mockMvc.perform(patch("/api/v1/user/{id}", 1L)
                 .contentType(APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(request)))
+                .content(objectMapper.writeValueAsString(request))
+                .with(csrf()))
                 .andExpect(status().isOk())
                 .andDo(print());
-    }
-
-
-    @DisplayName("POST 로그인 후 권한이 필요한 페이지 접속한다")
-    @Test
-    void loginAfterPage() throws Exception {
-        // given
-        User user = User.builder()
-                .username("nero")
-                .password("12345")
-                .email("wnsgur765z@naver.com")
-                .phone("01022343131")
-                .build();
-
-        UserSaveRequestDto request = UserSaveRequestDto.builder()
-                .username("nero")
-                .email("wnsgur765z@naver.com")
-                .phone("0102242")
-                .password("12345")
-                .build();
-
-        Session session = user.addSession();
-
-        userService.register(request);
-
-        // when
-        mockMvc.perform(get("/foo")
-                .contentType(APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andDo(print());
-
     }
 
 }

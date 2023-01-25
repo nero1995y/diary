@@ -6,26 +6,31 @@ import nero.diary.domain.diary.dto.DiariesResponseDto;
 import nero.diary.domain.diary.dto.DiaryWriteRequestDto;
 import nero.diary.domain.diary.entity.Diary;
 import nero.diary.domain.diary.service.DiaryService;
+import nero.diary.domain.user.entity.Role;
 import nero.diary.domain.user.entity.User;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.core.Is.is;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willDoNothing;
-import static org.mockito.Mockito.withSettings;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -41,19 +46,31 @@ class DiaryApiControllerTest {
     private ObjectMapper objectMapper;
 
     @Autowired
+    private WebApplicationContext context;
+
+    @Autowired
     private MockMvc mockMvc;
 
     @MockBean
     DiaryService diaryService;
 
+    @BeforeEach
+    void setUp() {
+        mockMvc = MockMvcBuilders.webAppContextSetup(context)
+                .apply(springSecurity())
+                .build();
+    }
+
 
     @DisplayName("POST diary api")
     @Test
+    @WithMockUser(roles = "USER")
     void write() throws Exception {
         // given
         User user = User.builder()
                 .username("nero")
                 .email("nero@gmail")
+                .role(Role.USER)
                 .build();
 
         DiaryWriteRequestDto request = DiaryWriteRequestDto.builder()
@@ -69,6 +86,7 @@ class DiaryApiControllerTest {
         // when
         ResultActions actions = mockMvc.perform(post("/api/v1/diary")
                 .contentType(APPLICATION_JSON)
+                .with(csrf())
                 .content(json));
 
         // then
@@ -78,11 +96,13 @@ class DiaryApiControllerTest {
 
     @DisplayName("GET diary List API")
     @Test
+    @WithMockUser(roles = "USER")
     void diaryList() throws Exception {
         // given
         User user = User.builder()
                 .username("nero")
                 .email("nero@gmail")
+                .role(Role.USER)
                 .build();
 
         Diary request = Diary.builder()

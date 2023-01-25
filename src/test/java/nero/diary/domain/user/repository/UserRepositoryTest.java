@@ -1,5 +1,7 @@
 package nero.diary.domain.user.repository;
 
+import lombok.extern.slf4j.Slf4j;
+import nero.diary.domain.user.entity.Role;
 import nero.diary.domain.user.entity.User;
 import nero.diary.domain.user.exception.UserNotFoundException;
 import org.junit.jupiter.api.AfterEach;
@@ -14,6 +16,7 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
+@Slf4j
 class UserRepositoryTest {
 
     @Autowired
@@ -28,7 +31,10 @@ class UserRepositoryTest {
     @Test
     void save() {
         // given
-        User user = User.builder().username("nero").build();
+        User user = User.builder()
+                .username("nero")
+                .role(Role.GUEST)
+                .build();
 
         // when
         User saveUser = userRepository.save(user);
@@ -37,7 +43,6 @@ class UserRepositoryTest {
         Optional<User> findUser = userRepository.findById(saveUser.getId());
 
         String findusername = findUser.orElseThrow(UserNotFoundException::new).getUsername();
-
 
         assertThat(saveUser.getUsername()).isEqualTo(findusername);
     }
