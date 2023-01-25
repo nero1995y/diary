@@ -471,7 +471,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h3 id="_요청"><a class="link" href="#_요청">요청</a></h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/v1/user/168 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/v1/user/2 HTTP/1.1
 Accept: application/json
 Host: api.nero.com</code></pre>
 </div>
@@ -502,9 +502,16 @@ Host: api.nero.com</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 100
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+Strict-Transport-Security: max-age=31536000 ; includeSubDomains
+X-Frame-Options: DENY
+Content-Length: 98
 
-{"id":168,"username":"nerotestss","email":"test@gmail.com","phone":"01022423531","password":"12345"}</code></pre>
+{"id":2,"username":"nerotestss","email":"test@gmail.com","phone":"01022423531","password":"12345"}</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -558,7 +565,7 @@ Content-Length: 100
 <h3 id="_요청_2"><a class="link" href="#_요청_2">요청</a></h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/v1/user HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/v1/user?_csrf=1c7ba0e8-8f0f-4673-868b-1d3d70badac5 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
 Content-Length: 89
@@ -620,7 +627,14 @@ Host: api.nero.com
 <h3 id="_응답_2"><a class="link" href="#_응답_2">응답</a></h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK</code></pre>
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+Strict-Transport-Security: max-age=31536000 ; includeSubDomains
+X-Frame-Options: DENY</code></pre>
 </div>
 </div>
 </div>
