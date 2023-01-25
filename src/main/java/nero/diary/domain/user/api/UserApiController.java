@@ -7,7 +7,6 @@ import nero.diary.domain.user.dto.user.UserSaveRequestDto;
 import nero.diary.domain.user.dto.user.UserUpdateRequestDto;
 import nero.diary.domain.user.dto.user.UsersResponseDto;
 import nero.diary.domain.user.service.UserService;
-import nero.diary.global.config.data.UserSession;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,19 +19,9 @@ public class UserApiController {
 
     private final UserService userService;
 
-    @GetMapping("/foo")
-    public Long foo(UserSession userSession) {
-
-        log.info(">>>{}", userSession.id);
-
-        return userSession.id;
-    }
-
     @PostMapping("api/v1/user")
-    public ResponseEntity<Void> register(@RequestBody @Valid UserSaveRequestDto requestDto
-                                         ) {
-
-            userService.register(requestDto);
+    public ResponseEntity<Void> register(@RequestBody @Valid UserSaveRequestDto requestDto) {
+        userService.register(requestDto);
         return ResponseEntity.ok().build();
     }
 

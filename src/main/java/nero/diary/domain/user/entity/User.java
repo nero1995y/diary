@@ -35,6 +35,13 @@ public class User {
     @Column(name = "user_password")
     private String password;
 
+    @Column(name = "user_picture")
+    private String picture;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "user_role")
+    private Role role;
+
     @OneToMany(mappedBy = "user")
     private List<Diary> diaryList = new ArrayList<>();
 
@@ -45,11 +52,13 @@ public class User {
 
 
     @Builder
-    public User(String username, String email, String phone, String password, List<Diary> diaryList) {
+    public User(String username, String email, String phone, String password, String picture, Role role, List<Diary> diaryList) {
         this.username = username;
         this.email = email;
         this.phone = phone;
         this.password = password;
+        this.picture = picture;
+        this.role = role;
         
         if(diaryList != null) {
             changeDiary(diaryList);
@@ -67,6 +76,15 @@ public class User {
         this.phone = user.getPhone();
     }
 
+    public User update(String name, String picture) {
+        this.username = name;
+        this.picture = picture;
+
+        return this;
+    }
+
+
+
     public Session addSession() {
         Session session = Session.builder()
                 .user(this)
@@ -78,4 +96,7 @@ public class User {
 
     }
 
+    public String getRoleKey() {
+        return this.role.getKey();
+    }
 }
