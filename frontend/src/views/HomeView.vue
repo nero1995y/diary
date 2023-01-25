@@ -9,7 +9,7 @@ const users = ref([]);
 </script>
 
 <template>
-
+  <a href="/api/oauth2/autorization/google">Google login</a>
 </template>
 
 <style scoped lang="scss">

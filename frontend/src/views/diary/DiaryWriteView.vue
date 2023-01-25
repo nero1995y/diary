@@ -12,7 +12,7 @@ const router = useRouter();
 const props = defineProps({
   userName: {
     type: String,
-    default: ""
+    default: "SIM JH"
   }
 })
 const write = function () {
