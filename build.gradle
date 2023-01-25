@@ -34,6 +34,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 
 	//querydsl 추가
 	implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
@@ -53,6 +54,7 @@ dependencies {
 	testAnnotationProcessor'org.projectlombok:lombok'
 
 	testImplementation 'org.mockito:mockito-core:3.11.2'
+	testImplementation 'org.springframework.security:spring-security-test'
 	testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
 
 }
