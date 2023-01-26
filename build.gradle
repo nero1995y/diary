@@ -92,11 +92,11 @@ configurations {
 
 
 test {
-	outputs.dir snippetsDir
+	outputs.dir (project.property("snippetsDir"))
 }
 
 asciidoctor {
-	inputs.dir snippetsDir
+	inputs.dir(project.property("snippetsDir"))
 	configurations 'asciidoctorExt'
 	dependsOn test
 }
