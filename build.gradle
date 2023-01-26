@@ -2,7 +2,7 @@ buildscript {
 	ext {
 		queryDslVersion = "5.0.0"
 		asciidocVersion = "2.0.6.RELEASE"
-		snippetsDir = file('build/generated-snippets')
+		snippetsDir = file('${buildDir}/generated-snippets')
 	}
 }
 
