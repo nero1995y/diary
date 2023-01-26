@@ -2,6 +2,8 @@ buildscript {
 	ext {
 		queryDslVersion = "5.0.0"
 		asciidocVersion = "2.0.6.RELEASE"
+		snippetsDir = file('build/generated-snippets')
+
 	}
 }
 
@@ -24,11 +26,6 @@ configurations {
 	}
 	asciidoctorExt
 }
-
-ext {
-	snippetsDir = file('build/generated-snippets')
-}
-
 
 repositories {
 	mavenCentral()
@@ -92,12 +89,12 @@ configurations {
 
 
 test {
-	outputs.dir (project.property("snippetsDir"))
+	outputs.dir snippetsDir
 }
 
 asciidoctor {
-	inputs.dir(project.property("snippetsDir"))
 	configurations 'asciidoctorExt'
+	inputs.dir snippetsDir
 	dependsOn test
 }
 
