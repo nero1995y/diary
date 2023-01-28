@@ -44,7 +44,7 @@ jobs:
         # Copy to S3 Bucket
       - name: Deliver to Aws S3
         env:
-          AWS_ACCESSS_KEY: ${{ secret.AWS_ACCESSS_KEY}}
+          AWS_ACCESS_KEY: ${{ secret.AWS_ACCESS_KEY}}
           AWS_SECRET_KEY: ${{ secret.AWS_SECRET_KEY}}
 
         run: |
