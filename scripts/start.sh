@@ -17,7 +17,8 @@ cp $PROJECT_ROOT/build/libs/*.jar $JAR_FILE
 echo "$TIME_NOW > $JAR_FILE 파일 실행" >> $DEPLOY_LOG
 nohup java -jar \
   -Dspring.config.location=classpath:/application.yml,/home/ec2-user/app/application-oauth.yml,/home/ec2-user/app/application-real-db.yml,classpath:/application-real.yml \
-  -Dspring.profiles.active=real $PROJECT_ROOT/nohup.out 2>&1 &
+  -Dspring.profiles.active=real \
+  $JAR_FILE > $PROJECT_ROOT/nohup.out 2>&1 &
 
 
 CURRENT_PID=$(pgrep -f $JAR_FILE)
