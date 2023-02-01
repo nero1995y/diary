@@ -2,7 +2,7 @@
 
 ABSPATH=$(reallink -f $0)
 ABSDIR=$(dirname $ABSPATH)
-source ${ABSDIR}/switch.sh
+source ${ABSDIR}/profile.sh
 
 function switch_proxy() {
     IDLE_PORT=$(find_idle_port)

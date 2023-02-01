@@ -25,7 +25,6 @@ do
   else
       echo "> Health check의 응답을 알 수 없거나 혹은 실행 상태가 아닙니다."
       echo "> Health check: ${RESPONSE}"
-
   fi
 
   if [ ${RETRY_COUNT} -eq 10 ]
@@ -33,10 +32,8 @@ do
     echo "> Health check 실패."
     echo "> nginx 연결하지 않고 배포를 종료합니다"
     exit 1
-
   fi
 
   echo "> Health check 연결 실패. 재시도..."
-
   sleep 10
 done

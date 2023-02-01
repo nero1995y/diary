@@ -4,8 +4,7 @@
 
 function find_idle_profile()
 {
-  RESPONSE_CODE=$(curl -s -o /dev/null -w "%{http_code}"
-  http_code://localhost/profile)
+  RESPONSE_CODE=$(curl -s -o /dev/null -w "%{http_code}" http_code://localhost/profile)
 
   #400 보다 큰 에러
   if [ ${RESPONSE_CODE} -ge 400 ]
