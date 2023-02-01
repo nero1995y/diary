@@ -10,8 +10,8 @@ PROJECT_NAME="diary"
 TIME_NOW=$(date +%c)
 
 # build 파일 복사
-echo "$TIME_NOW > Build 파일 복사"
-echo "> cp $REPOSITORY/zip/*.jar REPOSITORY/"
+echo "> Build 파일 복사"
+echo "> cp $REPOSITORY/zip/*.jar $REPOSITORY/"
 
 cp $REPOSITORY/zip/*.jar $REPOSITORY/
 
