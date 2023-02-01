@@ -1,25 +1,35 @@
 #!/usr/bin/env bash
 
-PROJECT_ROOT="/home/ec2-user/app/step2"
-JAR_FILE="$PROJECT_ROOT/diary.jar"
+ABSPATH=$(reallink -f $0)
+ABSDIR=$(dirname $ABSPATH)
+source ${ABSDIR}/profile.sh
 
-APP_LOG="$PROJECT_ROOT/application.log"
-ERROR_LOG="$PROJECT_ROOT/error.log"
-DEPLOY_LOG="$PROJECT_ROOT/deploy.log"
+REPOSITORY="/home/ec2-user/app/step3"
+PROJECT_NAME="diary"
 
 TIME_NOW=$(date +%c)
 
 # build 파일 복사
-echo "$TIME_NOW > $JAR_FILE 파일 복사" >> $DEPLOY_LOG
-cp $PROJECT_ROOT/build/libs/*.jar $JAR_FILE
+echo "$TIME_NOW > Build 파일 복사"
+echo "> cp $REPOSITORY/zip/*.jar REPOSITORY/"
+
+cp $REPOSITORY/build/libs/*.jar $REPOSITORY/
+
+echo "> 새 애플리케이션 배포"
+JAR_NAME=$(ls -tr $REPOSITORY/*.jar | tail -n 1)
+
+echo "> JAR Name: $JAR_NAME"
+
+echo "> $JAR_NAME 에 실행권한 추가"
+
+chomod +x $JAR_NAME
+
+IDLE_PROFILE=$(find_idle_profile)
 
 # jar 파일 실행
-echo "$TIME_NOW > $JAR_FILE 파일 실행" >> $DEPLOY_LOG
+echo "$TIME_NOW > $JAR_NAME 를 profile=$IDLE_PROFILE 로 실행합니다."
+
 nohup java -jar \
-  -Dspring.config.location=classpath:/application.yml,/home/ec2-user/app/application-oauth.yml,/home/ec2-user/app/application-real-db.yml,classpath:/application-real.yml \
-  -Dspring.profiles.active=real \
-  $JAR_FILE > $PROJECT_ROOT/nohup.out 2>&1 &
-
-
-CURRENT_PID=$(pgrep -f $JAR_FILE)
-echo "$TIME_NOW > 실행된 프로세스 아이디 $CURRENT_PID 입니다." >> $DEPLOY_LOG
+  -Dspring.config.location=classpath:/application.yml,classpath:/application-$IDLE_PROFILE.yml,/home/ec2-user/app/application-oauth.yml,/home/ec2-user/app/application-real-db.yml \
+  -Dspring.profiles.active=$IDLE_PROFILE \
+  $JAR_NAME > $REPOSITORY/nohup.out 2>&1 &

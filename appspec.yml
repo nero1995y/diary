@@ -3,7 +3,7 @@ os: linux
 
 files:
   - source: /
-    destination: /home/ec2-user/app/step2/
+    destination: /home/ec2-user/app/step3/
     overwrite: yes
 
 permissions:
@@ -19,5 +19,10 @@ hooks:
       runas: ec2-user
   ApplicationStart:
     - location: scripts/start.sh
+      timeout: 60
+      runas: ec2-user
+  # spring boot 실행 확인
+  ValidateService:
+    - location: scripts/health.sh
       timeout: 60
       runas: ec2-user
