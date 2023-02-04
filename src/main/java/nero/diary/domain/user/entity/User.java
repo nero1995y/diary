@@ -1,12 +1,10 @@
 package nero.diary.domain.user.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
 import lombok.Builder;
-import nero.diary.domain.diary.entity.Diary;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import nero.diary.domain.user.entity.auth.Session;
+import nero.diary.domain.diary.entity.Diary;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -29,12 +27,6 @@ public class User {
     @Column(name = "user_email")
     private String email;
 
-    @Column(name = "user_phone")
-    private String phone;
-
-    @Column(name = "user_password")
-    private String password;
-
     @Column(name = "user_picture")
     private String picture;
 
@@ -42,25 +34,17 @@ public class User {
     @Column(name = "user_role")
     private Role role;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Diary> diaryList = new ArrayList<>();
 
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Session> sessions = new ArrayList<>();
-
-
     @Builder
-    public User(String username, String email, String phone, String password, String picture, Role role, List<Diary> diaryList) {
+    public User(String username, String email, String picture, Role role, List<Diary> diaryList) {
         this.username = username;
         this.email = email;
-        this.phone = phone;
-        this.password = password;
         this.picture = picture;
         this.role = role;
-        
-        if(diaryList != null) {
+
+        if (diaryList != null) {
             changeDiary(diaryList);
         }
     }
@@ -72,8 +56,7 @@ public class User {
     public void update(User user) {
         this.username = user.getUsername();
         this.email = user.getEmail();
-        this.password = user.getPassword();
-        this.phone = user.getPhone();
+        this.picture = user.getPicture();
     }
 
     public User update(String name, String picture) {
@@ -81,19 +64,6 @@ public class User {
         this.picture = picture;
 
         return this;
-    }
-
-
-
-    public Session addSession() {
-        Session session = Session.builder()
-                .user(this)
-                .build();
-
-        sessions.add(session);
-
-        return session;
-
     }
 
     public String getRoleKey() {

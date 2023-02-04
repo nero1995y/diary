@@ -10,6 +10,6 @@ public class Unauthorized extends GlobalException{
 
     @Override
     public int getStatusCode() {
-        return 401;
+        return 400;
     }
 }

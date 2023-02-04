@@ -33,8 +33,7 @@ class DiaryRepositoryTest {
         User user = User.builder()
                 .username("nero")
                 .email("test@gmail.com")
-                .phone("01022423531")
-                .password("12345")
+                .picture("testPicture")
                 .build();
 
         userRepository.save(user);
@@ -62,8 +61,7 @@ class DiaryRepositoryTest {
         User user = User.builder()
                 .username("nero")
                 .email("test@gmail.com")
-                .phone("01022423531")
-                .password("12345")
+                .picture("testPicture")
                 .build();
 
         Diary diaryEntity = Diary.builder()
@@ -94,8 +92,7 @@ class DiaryRepositoryTest {
         User user = User.builder()
                 .username("nero")
                 .email("test@gmail.com")
-                .phone("01022423531")
-                .password("12345")
+                .picture("testPicture")
                 .build();
 
         Diary diaryEntity = Diary.builder()
@@ -125,8 +122,7 @@ class DiaryRepositoryTest {
         User user = User.builder()
                 .username("nero")
                 .email("test@gmail.com")
-                .phone("01022423531")
-                .password("12345")
+                .picture("testPicture")
                 .build();
 
         Diary diaryEntity = Diary.builder()
@@ -164,8 +160,7 @@ class DiaryRepositoryTest {
         User user = User.builder()
                 .username("nero")
                 .email("test@gmail.com")
-                .phone("01022423531")
-                .password("12345")
+                .picture("testPicture")
                 .build();
 
         Diary diaryEntity = Diary.builder()

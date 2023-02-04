@@ -49,8 +49,7 @@ class UserServiceTest {
         UserSaveRequestDto requestDto = UserSaveRequestDto.builder()
                 .username("nero")
                 .email("test@gmail.com")
-                .phone("01022423531")
-                .password("12345")
+                .picture("testPicture")
                 .build();
 
         // when
@@ -74,15 +73,13 @@ class UserServiceTest {
         UserSaveRequestDto requestDto = UserSaveRequestDto.builder()
                 .username("nero")
                 .email("test@gmail.com")
-                .phone("01022423531")
-                .password("12345")
+                .picture("testPicture")
                 .build();
 
         UserSaveRequestDto requestDto2 = UserSaveRequestDto.builder()
                 .username("nero")
                 .email("test@gmail.com")
-                .phone("01022423531")
-                .password("12345")
+                .picture("testPicture")
                 .build();
 
         // when then
@@ -101,8 +98,7 @@ class UserServiceTest {
         UserSaveRequestDto requestDto2 = UserSaveRequestDto.builder()
                 .username("nero2")
                 .email("test2@gmail.com")
-                .phone("01022423531")
-                .password("12345")
+                .picture("testPicture")
                 .build();
 
         userService.register(requestDto);
@@ -159,8 +155,7 @@ class UserServiceTest {
         return UserSaveRequestDto.builder()
                 .username("nero")
                 .email("test@gmail.com")
-                .phone("01022423531")
-                .password("12345")
+                .picture("testPicture")
                 .build();
     }
 
@@ -193,8 +188,7 @@ class UserServiceTest {
         UserUpdateRequestDto updateRequestDto = UserUpdateRequestDto.builder()
                 .username("nero")
                 .email("update@gmail.com")
-                .password("updatePassword")
-                .phone("01012222")
+                .picture("testPicture")
                 .build();
 
         UserResponseDto responseDto = userService.findUser(requestDto.getUsername());

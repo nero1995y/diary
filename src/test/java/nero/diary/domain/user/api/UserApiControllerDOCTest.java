@@ -56,8 +56,7 @@ public class UserApiControllerDOCTest {
         UserSaveRequestDto request = UserSaveRequestDto.builder()
                 .username("nerotestss")
                 .email("test@gmail.com")
-                .phone("01022423531")
-                .password("12345")
+                .picture("testPicture")
                 .build();
 
         userService.register(request);
@@ -92,8 +91,7 @@ public class UserApiControllerDOCTest {
         UserSaveRequestDto request = UserSaveRequestDto.builder()
                 .username("nerotest")
                 .email("test@gmail.com")
-                .phone("01022423531")
-                .password("12345")
+                .picture("testPicture")
                 .build();
 
         String json = new ObjectMapper().writeValueAsString(request);

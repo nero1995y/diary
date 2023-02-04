@@ -50,8 +50,7 @@ class UserApiControllerTest {
         UserSaveRequestDto request = UserSaveRequestDto.builder()
                 .username("nero")
                 .email("wnsgur765z@naver.com")
-                .phone("0102242")
-                .password("12345")
+                .picture("testPicture")
                 .build();
 
         willDoNothing().given(userService).register(request);
@@ -81,8 +80,7 @@ class UserApiControllerTest {
         User userEntity = User.builder()
                 .username("nero")
                 .email("wnsgur765z@naver.com")
-                .phone("0102242")
-                .password("12345")
+                .picture("testPicture")
                 .build();
 
         UserResponseDto userResponseDto = new UserResponseDto(userEntity);
@@ -107,8 +105,7 @@ class UserApiControllerTest {
         UserUpdateRequestDto request = UserUpdateRequestDto.builder()
                 .username("nero")
                 .email("wnsgur765z@naver.com")
-                .phone("0102242")
-                .password("12345")
+                .picture("testPicture")
                 .build();
 
         mockMvc.perform(patch("/api/v1/user/{id}", 1L)

@@ -10,26 +10,22 @@ import nero.diary.domain.user.entity.User;
 public class UserUpdateRequestDto {
     private String username;
     private String email;
-    private String password;
-    private String phone;
+
+    private String picture;
 
     @Builder
     public UserUpdateRequestDto(String username,
                                 String email,
-                                String password,
-                                String phone) {
+                                String picture) {
         this.username = username;
         this.email = email;
-        this.password = password;
-        this.phone = phone;
     }
 
     public User toEntity() {
         return User.builder()
                 .username(this.username)
                 .email(this.email)
-                .password(this.password)
-                .phone(this.phone)
+                .picture(this.picture)
                 .build();
 
     }
