@@ -4,7 +4,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nero.diary.domain.diary.dto.DiariesResponseDto;
 import nero.diary.domain.diary.dto.DiaryWriteRequestDto;
+import nero.diary.domain.diary.dto.search.DiarySearchCondition;
 import nero.diary.domain.diary.service.DiaryService;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,14 +24,9 @@ public class DiaryApiController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/api/v1/diaries/{diaryName}")
-    public ResponseEntity<DiariesResponseDto> diaryList(@PathVariable String diaryName,
-                                                        @RequestParam String username) {
-        return ResponseEntity.ok(diaryService.findDiary(diaryName, username));
-    }
-
     @GetMapping("/api/v1/diaries")
-    public ResponseEntity<DiariesResponseDto> diaryListByUsername(@RequestParam String username) {
-        return ResponseEntity.ok(diaryService.findDiaryByUsername(username));
+    public ResponseEntity<DiariesResponseDto> diaryListByUsername(DiarySearchCondition condition,
+                                                                  Pageable pageable) {
+        return ResponseEntity.ok(diaryService.findDiaryByUsername(condition, pageable));
     }
 }
