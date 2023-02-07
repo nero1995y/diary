@@ -50,6 +50,16 @@ public class UserService {
         return new UserResponseDto(user);
     }
 
+    public UserResponseDto findUserByEmail(String userEmail) {
+
+        User user = userRepository.findByEmail(userEmail)
+                .orElseThrow(UserNotFoundException::new);
+
+        return new UserResponseDto(user);
+    }
+
+
+
     @Transactional
     public void update(Long id, UserUpdateRequestDto requestDto) {
 

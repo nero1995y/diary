@@ -9,6 +9,6 @@ public class DiarySearchCondition {
 
     private String name;
     private String context;
-    private String username;
+    private String userEmail;
 
 }

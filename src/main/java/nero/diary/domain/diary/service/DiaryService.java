@@ -38,7 +38,7 @@ public class DiaryService {
 
     public DiariesResponseDto findDiaryByUsername(DiarySearchCondition condition, Pageable pageable) {
 
-        userService.getFindByUsername(condition.getUsername());
+        userService.findUserByEmail(condition.getUserEmail());
         Page<DiaryResponseDto> search = diaryRepository.search(condition, pageable);
 
         return DiariesResponseDto.of(search);

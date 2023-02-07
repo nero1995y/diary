@@ -6,9 +6,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import nero.diary.domain.diary.dto.DiaryResponseDto;
 import nero.diary.domain.diary.dto.QDiaryResponseDto;
 import nero.diary.domain.diary.dto.search.DiarySearchCondition;
-import nero.diary.domain.diary.entity.Diary;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
 
@@ -42,7 +40,7 @@ public class DiaryRepositoryImpl implements DiaryRepositoryCustom {
                 .leftJoin(diary.user, user)
                 .where(diaryNameEq(condition.getName()),
                         contentEq(condition.getContext()),
-                        userNameEq(condition.getUsername())
+                        userEmailEq(condition.getUserEmail())
                 )
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
@@ -54,7 +52,7 @@ public class DiaryRepositoryImpl implements DiaryRepositoryCustom {
                 .leftJoin(diary.user, user)
                 .where(diaryNameEq(condition.getName()),
                         contentEq(condition.getContext()),
-                        userNameEq(condition.getUsername())
+                        userEmailEq(condition.getUserEmail())
                 );
 
 
@@ -69,7 +67,7 @@ public class DiaryRepositoryImpl implements DiaryRepositoryCustom {
         return hasText(content) ? diary.content.eq(content) : null;
     }
 
-    private BooleanExpression userNameEq(String username) {
-        return hasText(username) ? user.email.eq(username) : null;
+    private BooleanExpression userEmailEq(String userEmail) {
+        return hasText(userEmail) ? user.email.eq(userEmail) : null;
     }
 }
