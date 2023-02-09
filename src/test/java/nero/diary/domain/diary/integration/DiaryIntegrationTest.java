@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import nero.diary.domain.diary.dto.DiariesResponseDto;
 import nero.diary.domain.diary.dto.DiaryResponseDto;
 import nero.diary.domain.diary.dto.DiaryWriteRequestDto;
+import nero.diary.domain.diary.dto.search.DiarySearchCondition;
 import nero.diary.domain.diary.entity.Diary;
 import nero.diary.domain.diary.repository.DiaryRepository;
 import nero.diary.domain.diary.service.DiaryService;
@@ -17,6 +18,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
@@ -94,8 +96,17 @@ public class DiaryIntegrationTest {
 
         diaryService.write(request);
 
-        DiariesResponseDto diary = diaryService.findDiary(request.getName(), save.getUsername());
+        DiarySearchCondition condition = new DiarySearchCondition("","","");
 
+        DiariesResponseDto diary = diaryService.findDiaryByUsername(condition, null);
+
+        // then
+        List<String> diaryName = diary.getDiaryResponseDtoList()
+                .stream()
+                .map(DiaryResponseDto::getName)
+                .collect(Collectors.toList());
+
+        assertThat(diaryName).contains(request.getName());
     }
 
     @DisplayName("유저이름과 제목으로 찾는다")
@@ -113,16 +124,18 @@ public class DiaryIntegrationTest {
         diaryService.write(request);
         diaryService.write(request2);
 
-        // when
-        DiariesResponseDto diary = diaryService.findDiary(request.getName(), user.getUsername());
+        DiarySearchCondition condition = new DiarySearchCondition("","","");
 
-        List<String> diaries = diary.getDiaryResponseDtoList()
+        DiariesResponseDto diary = diaryService.findDiaryByUsername(condition, null);
+
+        // then
+        List<String> diaryName = diary.getDiaryResponseDtoList()
                 .stream()
                 .map(DiaryResponseDto::getName)
                 .collect(Collectors.toList());
 
-        assertThat(diaries).contains(request.getName());
-        assertThat(diaries.size()).isEqualTo(1);
+        assertThat(diaryName).contains(request.getName());
+        assertThat(diaryName.size()).isEqualTo(1);
 
     }
 }

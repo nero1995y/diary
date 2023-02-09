@@ -3,6 +3,7 @@ package nero.diary.domain.diary.api;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import nero.diary.domain.diary.dto.DiariesResponseDto;
+import nero.diary.domain.diary.dto.DiaryResponseDto;
 import nero.diary.domain.diary.dto.DiaryWriteRequestDto;
 import nero.diary.domain.diary.entity.Diary;
 import nero.diary.domain.diary.service.DiaryService;
@@ -14,6 +15,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
@@ -110,13 +113,16 @@ class DiaryApiControllerTest {
                 .content("다이어리 컨텐츠")
                 .user(user)
                 .build();
+        DiaryResponseDto dto = new DiaryResponseDto(request);
 
-        List<Diary> diaryList = new ArrayList<>();
+        List<DiaryResponseDto> diaryList = new ArrayList<>();
 
-        diaryList.add(request);
-        DiariesResponseDto response = DiariesResponseDto.of(diaryList);
+        diaryList.add(dto);
 
-        given(diaryService.findDiary(any(), any()))
+        //Page<DiaryResponseDto> diaries
+        DiariesResponseDto response = DiariesResponseDto.of(new PageImpl<>(diaryList));
+
+        given(diaryService.findDiaryByUsername(any(), any()))
                 .willReturn(response);
 
         // when

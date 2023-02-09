@@ -175,6 +175,22 @@ class UserServiceTest {
     }
 
 
+    @DisplayName("유저 이메일로 조회한다 ")
+    @Test
+    void findUserByEmail() {
+        // given
+        UserSaveRequestDto requestDto = getUserSaveRequestDto();
+
+        userService.register(requestDto);
+
+        // when
+        UserResponseDto findUser = userService.findUserByEmail(requestDto.getEmail());
+
+        // then
+        assertThat(findUser.getEmail()).isEqualTo(requestDto.getEmail());
+    }
+
+
 
 
     @DisplayName("유저 업데이트한다")
