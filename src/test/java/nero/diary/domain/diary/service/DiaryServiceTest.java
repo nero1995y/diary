@@ -21,6 +21,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -60,25 +61,33 @@ class DiaryServiceTest {
 
     @DisplayName("다이어리를 이름으로 찾는다")
     @Test
-    @Disabled
     void find() {
         // given
-        DiaryWriteRequestDto request = DiaryWriteRequestDto.builder()
-                .name("testTitle")
-                .content("테스트 내용입니다")
-                .build();
-
         User user = User.builder().username("nero").build();
 
-        DiarySearchCondition condition = new DiarySearchCondition(request.getName(), "","");
+        Diary diary = Diary.builder()
+                .name("testTitle")
+                .content("test 내용")
+                .user(user)
+                .build();
+
+        DiaryResponseDto dto = new DiaryResponseDto(diary);
+
+        DiarySearchCondition condition = new DiarySearchCondition(diary.getName(), "","");
 
         Pageable pageable = PageRequest.of(0, 1);
+
+        List<DiaryResponseDto> items = new ArrayList<>();
+        items.add(dto);
+        int total = 10;
+
+        when(diaryRepository.search(any(), any())).thenReturn(new PageImpl<>(items, pageable, total));
 
         // when
         diaryService.findDiaryByUsername(condition, pageable);
 
         // then
         verify(diaryRepository, times(1)).search(
-                condition, null);
+                any(), any());
     }
 }

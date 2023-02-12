@@ -34,23 +34,15 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
         OAuth2User oAuth2User = delegate.loadUser(userRequest);
 
-        log.info(">>> {}", oAuth2User);
-
         String registrationId = userRequest.getClientRegistration().getRegistrationId();
         String userNameAttributeName = userRequest.getClientRegistration()
                 .getProviderDetails()
                 .getUserInfoEndpoint()
                 .getUserNameAttributeName();
 
-        log.info(">>> registrationId 현재 로그인 진행중인 서비스를 구분하는 코드{}", registrationId);
-        log.info(">>> userNameAttributeName 로그인 진행시 키가 도니느 필드값{}", userNameAttributeName);
-
-
         OAuthAttributes attributes = OAuthAttributes.of(registrationId,
                 userNameAttributeName,
                 oAuth2User.getAttributes());
-
-        log.info(">>> attributes 소셜로그인 attribute를 담을 클래스{}", attributes);
 
         // 로그인 한 유저 정보
         User user = saveOrUpdate(attributes);

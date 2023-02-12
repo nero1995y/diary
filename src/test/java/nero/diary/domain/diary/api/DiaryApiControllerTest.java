@@ -125,10 +125,12 @@ class DiaryApiControllerTest {
         given(diaryService.findDiaryByUsername(any(), any()))
                 .willReturn(response);
 
+        String json = objectMapper.writeValueAsString(request);
+
         // when
-        ResultActions actions = mockMvc.perform(get("/api/v1/diaries/{diaryName}", request.getName())
+        ResultActions actions = mockMvc.perform(get("/api/v1/diaries")
                 .contentType(APPLICATION_JSON)
-                .param("username", user.getUsername())
+                .content(json)
         );
 
         actions.andExpect(status().isOk())
