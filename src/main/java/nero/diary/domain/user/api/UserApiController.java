@@ -54,5 +54,4 @@ public class UserApiController {
         userService.remove(username);
         return  ResponseEntity.ok().build();
     }
-
 }
