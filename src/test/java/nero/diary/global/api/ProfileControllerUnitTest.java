@@ -20,7 +20,6 @@ class ProfileControllerUnitTest {
 
         ProfileController controller = new ProfileController(env);
 
-
         // when
         String profile = controller.profile();
 
