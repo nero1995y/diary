@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import nero.diary.domain.user.entity.User;
+import nero.diary.global.entity.BaseTimeEntity;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -13,7 +14,7 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Diary {
+public class Diary extends BaseTimeEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

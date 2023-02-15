@@ -71,17 +71,13 @@ class DiaryServiceTest {
                 .user(user)
                 .build();
 
-        DiaryResponseDto dto = new DiaryResponseDto(diary);
-
         DiarySearchCondition condition = new DiarySearchCondition(diary.getName(), "","");
-
         Pageable pageable = PageRequest.of(0, 1);
 
         List<DiaryResponseDto> items = new ArrayList<>();
-        items.add(dto);
-        int total = 10;
+        items.add(new DiaryResponseDto(diary));
 
-        when(diaryRepository.search(any(), any())).thenReturn(new PageImpl<>(items, pageable, total));
+        when(diaryRepository.search(any(), any())).thenReturn(new PageImpl<>(items, pageable, 10));
 
         // when
         diaryService.findDiaryByUsername(condition, pageable);
