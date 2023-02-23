@@ -35,7 +35,9 @@ public class DiaryRepositoryImpl implements DiaryRepositoryCustom {
                         diary.id.as("diaryId"),
                         diary.name,
                         diary.content,
-                        user.email.as("userEmail")))
+                        user.email.as("userEmail"),
+                        diary.modifiedDate.as("modifiedDate")
+                ))
                 .from(diary)
                 .leftJoin(diary.user, user)
                 .where(diaryNameEq(condition.getName()),

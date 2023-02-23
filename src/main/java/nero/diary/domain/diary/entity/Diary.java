@@ -31,10 +31,17 @@ public class Diary extends BaseTimeEntity {
     @JoinColumn(name = "user_id")
     private User user;
 
+
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id")
+    private Category category;
+
+
     @Builder
-    public Diary(String name, String content, User user) {
+    public Diary(String name, String content, User user, Category category) {
         this.name = name;
         this.content = content;
+        this.category = category;
 
         if (user != null) {
             changeUser(user);
@@ -49,4 +56,15 @@ public class Diary extends BaseTimeEntity {
         this.user = user;
     }
 
+
+    public void update(String name, String content, User user, Category category) {
+        this.name = name;
+        this.content = content;
+        this.user = user;
+        this.category = category;
+    }
+
+    public void updateCategory(Category category) {
+        this.category = category;
+    }
 }
