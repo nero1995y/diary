@@ -1,7 +1,9 @@
 package nero.diary.domain.diary.service;
 
 import nero.diary.domain.diary.dto.category.CategorySaveRequestDto;
+import nero.diary.domain.diary.exception.AlreadyCategoryException;
 import nero.diary.domain.diary.repository.CategoryRepository;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -11,6 +13,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import static org.assertj.core.api.Assertions.*;
 import static org.mockito.BDDMockito.willDoNothing;
 import static org.mockito.Mockito.*;
 
@@ -43,4 +46,24 @@ class CategoryServiceTest {
         verify(categoryRepository, times(1)).save(any());
     }
 
+
+    @DisplayName("카테고리 중복 메소드가 동작하는지")
+    @Test
+    void verifyDuplicates() {
+        // given
+        CategorySaveRequestDto request = CategorySaveRequestDto.builder()
+                .name("카테고리테스트이름")
+                .build();
+
+        String fakeRequestName = request.getName();
+
+        when(categoryRepository.findByName(any()))
+                .thenThrow(new AlreadyCategoryException());
+
+        // when  then
+        assertThatThrownBy(() ->categoryService.verifyDuplicates(fakeRequestName))
+                .isInstanceOf(AlreadyCategoryException.class);
+
+        verify(categoryRepository, times(1)).findByName(any());
+    }
 }
