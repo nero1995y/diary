@@ -1,20 +1,27 @@
 package nero.diary.domain.diary.service;
 
+import nero.diary.domain.diary.dto.category.CategoriesResponseDto;
 import nero.diary.domain.diary.dto.category.CategorySaveRequestDto;
+import nero.diary.domain.diary.entity.Category;
 import nero.diary.domain.diary.exception.AlreadyCategoryException;
 import nero.diary.domain.diary.repository.CategoryRepository;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.mockito.BDDMockito.willDoNothing;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.*;
 
 
@@ -40,9 +47,9 @@ class CategoryServiceTest {
                 .thenReturn(request.toEntity());
 
         // when
-       categoryService.createCategory(request);
+        categoryService.createCategory(request);
 
-       // then
+        // then
         verify(categoryRepository, times(1)).save(any());
     }
 
@@ -61,9 +68,82 @@ class CategoryServiceTest {
                 .thenThrow(new AlreadyCategoryException());
 
         // when  then
-        assertThatThrownBy(() ->categoryService.verifyDuplicates(fakeRequestName))
+        assertThatThrownBy(() -> categoryService.verifyDuplicates(fakeRequestName))
                 .isInstanceOf(AlreadyCategoryException.class);
 
         verify(categoryRepository, times(1)).findByName(any());
+    }
+
+    @DisplayName("카테고리 목록을 조회한다")
+    @Test
+    void findAll() {
+        //given
+        Category aCategory = Category.builder()
+                .name("aCategory")
+                .build();
+
+        Category bCategory = Category.builder()
+                .name("bCategory")
+                .build();
+
+        List<Category> categories = new ArrayList<>();
+        categories.add(aCategory);
+        categories.add(bCategory);
+
+        PageRequest page = PageRequest.of(0, 10,
+                Sort.by(Sort.Order.desc("name")));
+
+
+        BDDMockito.given(categoryRepository.findAll(page)).willReturn(new PageImpl<>(categories, page, 1000));
+
+        //when
+        CategoriesResponseDto categoryAll = categoryService.findCategoryAll();
+
+        //then
+        verify(categoryRepository, times(1)).findAll(page);
+    }
+
+    @DisplayName("카테고리를 이름으로 조회한다")
+    @Test
+    void findCategory() {
+        //given
+        Category categoryEntity = Category.builder()
+                .name("TestCategory")
+                .build();
+
+        Optional<Category> category = Optional.of(categoryEntity);
+
+        BDDMockito.given(categoryRepository.findByName(any()))
+                .willReturn(category);
+
+        //when
+        categoryService.findCategory(categoryEntity.getName());
+
+        //then
+        verify(categoryRepository, times(1)).findByName(any());
+    }
+
+    @DisplayName("카테고리를 업데이트 한다")
+    @Test
+    void update() {
+        // given
+        Category categoryEntity = Category.builder()
+                .id(1L)
+                .name("TestCategory")
+                .build();
+        Optional<Category> category = Optional.of(categoryEntity);
+
+
+
+
+        BDDMockito.given(categoryRepository.findById(any()))
+                .willReturn(category);
+
+        // when
+        categoryService.update(categoryEntity.getId());
+
+        // then
+        verify(categoryRepository,times(1))
+                .findByName(any());
     }
 }

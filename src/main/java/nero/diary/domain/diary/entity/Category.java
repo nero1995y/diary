@@ -24,11 +24,12 @@ public class Category extends BaseTimeEntity {
     @Column(nullable = false, name = "category_name")
     private String name;
 
-    @Builder
+    //@Builder
     public Category(String name) {
         this(null, name);
     }
 
+    @Builder
     public Category(Long id, String name) {
         this.id = id;
         validateMaxLength(name);

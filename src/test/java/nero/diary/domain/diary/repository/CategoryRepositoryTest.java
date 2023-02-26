@@ -7,6 +7,11 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -88,5 +93,37 @@ class CategoryRepositoryTest {
                 .isPresent();
 
         assertThat(isNullEntity).isEqualTo(false);
+    }
+
+    @DisplayName("카테고리 목록을 전부 조회한다")
+    @Test
+    void findAll() {
+        //given
+        Category aCategory = Category.builder()
+                .name("ACategory")
+                .build();
+
+        Category bCategory = Category.builder()
+                .name("BCategory")
+                .build();
+
+        Category cCategory = Category.builder()
+                .name("CCategory")
+                .build();
+
+        categoryRepository.save(aCategory);
+        categoryRepository.save(bCategory);
+        categoryRepository.save(cCategory);
+
+        PageRequest page = PageRequest.of(0, 10,
+                Sort.by(Sort.Order.desc("name")));
+
+        //when
+        Page<Category> categories = categoryRepository.findAll(page);
+
+
+        //then
+        assertThat(categories.getContent())
+                .containsExactly(cCategory,bCategory,aCategory);
     }
 }
