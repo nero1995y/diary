@@ -8,7 +8,6 @@ import nero.diary.domain.diary.repository.CategoryRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -22,7 +21,7 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.Mockito.*;
+import static org.mockito.BDDMockito.*;
 
 
 @ExtendWith(MockitoExtension.class)
@@ -47,7 +46,7 @@ class CategoryServiceTest {
                 .thenReturn(request.toEntity());
 
         // when
-        categoryService.createCategory(request);
+        categoryService.create(request);
 
         // then
         verify(categoryRepository, times(1)).save(any());
@@ -94,7 +93,7 @@ class CategoryServiceTest {
                 Sort.by(Sort.Order.desc("name")));
 
 
-        BDDMockito.given(categoryRepository.findAll(page)).willReturn(new PageImpl<>(categories, page, 1000));
+        given(categoryRepository.findAll(page)).willReturn(new PageImpl<>(categories, page, 1000));
 
         //when
         CategoriesResponseDto categoryAll = categoryService.findCategoryAll();
@@ -113,7 +112,7 @@ class CategoryServiceTest {
 
         Optional<Category> category = Optional.of(categoryEntity);
 
-        BDDMockito.given(categoryRepository.findByName(any()))
+        given(categoryRepository.findByName(any()))
                 .willReturn(category);
 
         //when
@@ -131,19 +130,47 @@ class CategoryServiceTest {
                 .id(1L)
                 .name("TestCategory")
                 .build();
+
+        String updateCategoryName = "updateCategory";
         Optional<Category> category = Optional.of(categoryEntity);
 
-
-
-
-        BDDMockito.given(categoryRepository.findById(any()))
+        given(categoryRepository.findById(any()))
                 .willReturn(category);
 
         // when
-        categoryService.update(categoryEntity.getId());
+        categoryService.update(categoryEntity.getId(), updateCategoryName);
 
         // then
-        verify(categoryRepository,times(1))
+        verify(categoryRepository, times(1))
+                .findById(any());
+
+        assertThat(categoryEntity.getName()).isEqualTo(updateCategoryName);
+    }
+
+    @DisplayName("카테고리가 삭제된다")
+    @Test
+    void delete() {
+        //given
+        Category category = Category.builder()
+                .id(1L)
+                .name("tesCategory")
+                .build();
+
+        given(categoryRepository.findByName(any()))
+                .willReturn(Optional.of(category));
+
+        doNothing().when(categoryRepository).deleteById(anyLong());
+
+
+        // when
+        categoryService.delete(category.getName());
+
+
+        // then
+        verify(categoryRepository, times(1))
                 .findByName(any());
+
+        verify(categoryRepository, times(1))
+                .deleteById(any());
     }
 }

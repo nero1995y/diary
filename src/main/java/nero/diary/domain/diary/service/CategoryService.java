@@ -22,7 +22,7 @@ public class CategoryService {
     private final CategoryRepository categoryRepository;
 
     @Transactional
-    public void createCategory(CategorySaveRequestDto request) {
+    public void create(CategorySaveRequestDto request) {
         verifyDuplicates(request.getName());
         categoryRepository.save(request.toEntity());
 
@@ -52,7 +52,7 @@ public class CategoryService {
 
         return new CategoryResponseDto(category);
     }
-
+    @Transactional
     public void update(Long id, String name) {
         Category category = categoryRepository.findById(id)
                 .orElseThrow(CategoryNotFoundException::new);
@@ -60,6 +60,14 @@ public class CategoryService {
         category.update(name);
     }
 
+    @Transactional
+    public void delete(String name) {
+
+        Category category = categoryRepository.findByName(name)
+                .orElseThrow(CategoryNotFoundException::new);
+
+        categoryRepository.deleteById(category.getId());
+    }
 
 
     private PageRequest defaultPageRequest() {
