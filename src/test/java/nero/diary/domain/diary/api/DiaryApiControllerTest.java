@@ -86,7 +86,7 @@ class DiaryApiControllerTest {
         String json = objectMapper.writeValueAsString(request);
 
         // when
-        ResultActions actions = mockMvc.perform(post("/api/v1/diary")
+        ResultActions actions = mockMvc.perform(post("/api/v2/diary")
                 .contentType(APPLICATION_JSON)
                 .with(csrf())
                 .content(json));
@@ -127,7 +127,7 @@ class DiaryApiControllerTest {
         String json = objectMapper.writeValueAsString(request);
 
         // when
-        ResultActions actions = mockMvc.perform(get("/api/v1/diaries")
+        ResultActions actions = mockMvc.perform(get("/api/v2/diaries")
                 .contentType(APPLICATION_JSON)
                 .content(json)
         );
