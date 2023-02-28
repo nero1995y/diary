@@ -17,14 +17,14 @@ public class DiaryApiController {
 
     private final DiaryService diaryService;
 
-    @PostMapping("/api/v1/diary")
+    @PostMapping("/api/v2/diary")
     public ResponseEntity<Void> write(@RequestBody DiaryWriteRequestDto requestDto) {
 
         diaryService.write(requestDto);
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/api/v1/diaries")
+    @GetMapping("/api/v2/diaries")
     public ResponseEntity<DiariesResponseDto> diaryListByUsername(DiarySearchCondition condition,
                                                                   Pageable pageable) {
         return ResponseEntity.ok(diaryService.findDiaryByUsername(condition, pageable));
