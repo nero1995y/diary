@@ -1,4 +1,4 @@
-package nero.diary.global.response;
+package nero.diary.global.common.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;

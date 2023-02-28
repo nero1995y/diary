@@ -1,6 +1,6 @@
 package nero.diary.domain.diary.service;
 
-import nero.diary.domain.diary.dto.category.CategoriesResponseDto;
+import nero.diary.domain.diary.dto.category.CategoryListResponseDto;
 import nero.diary.domain.diary.dto.category.CategorySaveRequestDto;
 import nero.diary.domain.diary.entity.Category;
 import nero.diary.domain.diary.exception.AlreadyCategoryException;
@@ -33,11 +33,10 @@ class CategoryServiceTest {
     @InjectMocks
     CategoryService categoryService;
 
-
     @DisplayName("카테고리를 등록한다")
     @Test
     void create() {
-        // given
+        //given
         CategorySaveRequestDto request = CategorySaveRequestDto.builder()
                 .name("카테고리테스트이름")
                 .build();
@@ -45,10 +44,10 @@ class CategoryServiceTest {
         when(categoryRepository.save(any()))
                 .thenReturn(request.toEntity());
 
-        // when
+        //when
         categoryService.create(request);
 
-        // then
+        //then
         verify(categoryRepository, times(1)).save(any());
     }
 
@@ -56,7 +55,7 @@ class CategoryServiceTest {
     @DisplayName("카테고리 중복 메소드가 동작하는지")
     @Test
     void verifyDuplicates() {
-        // given
+        //given
         CategorySaveRequestDto request = CategorySaveRequestDto.builder()
                 .name("카테고리테스트이름")
                 .build();
@@ -66,7 +65,7 @@ class CategoryServiceTest {
         when(categoryRepository.findByName(any()))
                 .thenThrow(new AlreadyCategoryException());
 
-        // when  then
+        //when then
         assertThatThrownBy(() -> categoryService.verifyDuplicates(fakeRequestName))
                 .isInstanceOf(AlreadyCategoryException.class);
 
@@ -92,11 +91,10 @@ class CategoryServiceTest {
         PageRequest page = PageRequest.of(0, 10,
                 Sort.by(Sort.Order.desc("name")));
 
-
         given(categoryRepository.findAll(page)).willReturn(new PageImpl<>(categories, page, 1000));
 
         //when
-        CategoriesResponseDto categoryAll = categoryService.findCategoryAll();
+        CategoryListResponseDto categoryAll = categoryService.findAll();
 
         //then
         verify(categoryRepository, times(1)).findAll(page);
@@ -116,7 +114,7 @@ class CategoryServiceTest {
                 .willReturn(category);
 
         //when
-        categoryService.findCategory(categoryEntity.getName());
+        categoryService.findByName(categoryEntity.getName());
 
         //then
         verify(categoryRepository, times(1)).findByName(any());
@@ -125,7 +123,7 @@ class CategoryServiceTest {
     @DisplayName("카테고리를 업데이트 한다")
     @Test
     void update() {
-        // given
+        //given
         Category categoryEntity = Category.builder()
                 .id(1L)
                 .name("TestCategory")
@@ -137,10 +135,10 @@ class CategoryServiceTest {
         given(categoryRepository.findById(any()))
                 .willReturn(category);
 
-        // when
+        //when
         categoryService.update(categoryEntity.getId(), updateCategoryName);
 
-        // then
+        //then
         verify(categoryRepository, times(1))
                 .findById(any());
 
@@ -161,12 +159,10 @@ class CategoryServiceTest {
 
         doNothing().when(categoryRepository).deleteById(anyLong());
 
-
-        // when
+        //when
         categoryService.delete(category.getName());
 
-
-        // then
+        //then
         verify(categoryRepository, times(1))
                 .findByName(any());
 

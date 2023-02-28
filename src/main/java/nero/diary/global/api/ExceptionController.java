@@ -1,9 +1,7 @@
 package nero.diary.global.api;
 
-import nero.diary.domain.user.exception.UserNotFoundException;
 import nero.diary.global.exception.GlobalException;
-import nero.diary.global.exception.InvalidRequest;
-import nero.diary.global.response.ErrorResponse;
+import nero.diary.global.common.response.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;

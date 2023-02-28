@@ -1,7 +1,6 @@
 package nero.diary.domain.diary.dto;
 
 import com.querydsl.core.annotations.QueryProjection;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import nero.diary.domain.diary.entity.Diary;
@@ -19,6 +18,7 @@ public class DiaryResponseDto {
     private LocalDateTime modifiedDate;
 
     private String userEmail;
+
     @QueryProjection
     public DiaryResponseDto(Long id, String name, String content, String userEmail, LocalDateTime modifiedDate) {
 
@@ -34,6 +34,6 @@ public class DiaryResponseDto {
         this.id = diary.getId();
         this.name = diary.getName();
         this.content = diary.getContent();
-        this.modifiedDate =diary.getModifiedDate();
+        this.modifiedDate = diary.getModifiedDate();
     }
 }
