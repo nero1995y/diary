@@ -1,7 +1,7 @@
 package nero.diary.domain.diary.service;
 
 import lombok.RequiredArgsConstructor;
-import nero.diary.domain.diary.dto.category.CategoriesResponseDto;
+import nero.diary.domain.diary.dto.category.CategoryListResponseDto;
 import nero.diary.domain.diary.dto.category.CategoryResponseDto;
 import nero.diary.domain.diary.dto.category.CategorySaveRequestDto;
 import nero.diary.domain.diary.entity.Category;
@@ -25,7 +25,6 @@ public class CategoryService {
     public void create(CategorySaveRequestDto request) {
         verifyDuplicates(request.getName());
         categoryRepository.save(request.toEntity());
-
     }
 
     public void verifyDuplicates(String name) {
@@ -33,25 +32,22 @@ public class CategoryService {
                 .ifPresent(category -> {
                     throw new AlreadyCategoryException();
                 });
-
     }
 
-    public CategoriesResponseDto findCategoryAll() {
+    public CategoryListResponseDto findAll() {
 
-        PageRequest page = defaultPageRequest();
+        Page<Category> categories = categoryRepository.findAll(defaultPageRequest());
 
-        Page<Category> categories = categoryRepository.findAll(page);
-
-        return CategoriesResponseDto.of(categories);
+        return CategoryListResponseDto.of(categories);
     }
 
-    public CategoryResponseDto findCategory(String name) {
+    public CategoryResponseDto findByName(String name) {
 
-        Category category = categoryRepository.findByName(name)
-                .orElseThrow(CategoryNotFoundException::new);
+        Category category = getCategory(name);
 
         return new CategoryResponseDto(category);
     }
+
     @Transactional
     public void update(Long id, String name) {
         Category category = categoryRepository.findById(id)
@@ -63,15 +59,18 @@ public class CategoryService {
     @Transactional
     public void delete(String name) {
 
-        Category category = categoryRepository.findByName(name)
-                .orElseThrow(CategoryNotFoundException::new);
+        Category category = getCategory(name);
 
         categoryRepository.deleteById(category.getId());
     }
 
+    private Category getCategory(String name) {
+        return categoryRepository.findByName(name)
+                .orElseThrow(CategoryNotFoundException::new);
+    }
 
     private PageRequest defaultPageRequest() {
-       return PageRequest.of(0,
+        return PageRequest.of(0,
                 10,
                 Sort.by(Sort.Order.desc("name")));
     }

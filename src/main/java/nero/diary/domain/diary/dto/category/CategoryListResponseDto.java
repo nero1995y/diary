@@ -13,19 +13,19 @@ import java.util.stream.Collectors;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CategoriesResponseDto {
+public class CategoryListResponseDto {
 
     private List<CategoryResponseDto> categoryResponseDtoList;
     private Pageable pageable;
 
-    public static CategoriesResponseDto of(Page<Category> categories) {
+    public static CategoryListResponseDto of(Page<Category> categories) {
 
         List<CategoryResponseDto> categoryResponseDto = toResponse(categories.getContent());
 
-        return new CategoriesResponseDto(categoryResponseDto,categories.getPageable());
+        return new CategoryListResponseDto(categoryResponseDto, categories.getPageable());
     }
 
-    private static List<CategoryResponseDto> toResponse(List<Category> categories){
+    private static List<CategoryResponseDto> toResponse(List<Category> categories) {
         return categories.stream()
                 .map(CategoryResponseDto::new)
                 .collect(Collectors.toList());

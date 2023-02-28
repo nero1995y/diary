@@ -1,7 +1,11 @@
 package nero.diary.domain.diary.dto.category;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import nero.diary.domain.diary.entity.Category;
 
+@Getter
+@NoArgsConstructor
 public class CategoryResponseDto {
 
     private Long id;
