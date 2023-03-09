@@ -14,12 +14,20 @@ public class UserResponseDto {
     private String username;
     private String email;
     private String picture;
+    private String token;
 
     public UserResponseDto(User user) {
         this.id = user.getId();
         this.username = user.getUsername();
         this.email = user.getEmail();
         this.picture = user.getPicture();
+    }
 
+    public UserResponseDto(User user, String token) {
+        this.id = user.getId();
+        this.username = user.getUsername();
+        this.email = user.getEmail();
+        this.picture = user.getPicture();
+        this.token = token;
     }
 }

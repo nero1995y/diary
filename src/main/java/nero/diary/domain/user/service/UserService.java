@@ -9,6 +9,7 @@ import nero.diary.domain.user.entity.User;
 import nero.diary.domain.user.exception.AlreadyUserException;
 import nero.diary.domain.user.exception.UserNotFoundException;
 import nero.diary.domain.user.repository.UserRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,12 +19,17 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Transactional
     public void register(UserSaveRequestDto requestDto) {
         verifyUsername(requestDto.getUsername());
+        String encodePassword = getEncode(requestDto.getPassword());
+        userRepository.save(requestDto.toEntity(encodePassword));
+    }
 
-        userRepository.save(requestDto.toEntity());
+    private String getEncode(String password) {
+        return passwordEncoder.encode(password);
     }
 
     public void verifyUsername(String username) {

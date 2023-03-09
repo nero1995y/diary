@@ -24,6 +24,9 @@ public class User {
     @Column(name = "user_name")
     private String username;
 
+    @Column(name = "user_password")
+    private String password;
+
     @Column(name = "user_email")
     private String email;
 
@@ -38,8 +41,9 @@ public class User {
     private List<Diary> diaryList = new ArrayList<>();
 
     @Builder
-    public User(String username, String email, String picture, Role role, List<Diary> diaryList) {
+    public User(String username, String email, String password, String picture, Role role, List<Diary> diaryList) {
         this.username = username;
+        this.password = password;
         this.email = email;
         this.picture = picture;
         this.role = role;

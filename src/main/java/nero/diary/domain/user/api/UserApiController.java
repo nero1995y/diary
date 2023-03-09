@@ -8,6 +8,7 @@ import nero.diary.domain.user.dto.user.UserUpdateRequestDto;
 import nero.diary.domain.user.dto.user.UsersResponseDto;
 import nero.diary.domain.user.service.UserService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -20,7 +21,7 @@ public class UserApiController {
     private final UserService userService;
 
     @PostMapping("api/v1/user")
-    public ResponseEntity<Void> register(@RequestBody @Valid UserSaveRequestDto requestDto) {
+    public ResponseEntity<Void> register(@RequestBody @Validated UserSaveRequestDto requestDto) {
         userService.register(requestDto);
         return ResponseEntity.ok().build();
     }
