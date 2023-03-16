@@ -54,10 +54,12 @@ public class JwtConfig {
             return isBearer(token);
         }
 
+        String s = token.split(" ")[1];
+
         return !Jwts.parserBuilder()
                 .setSigningKey(secretKey)
                 .build()
-                .parseClaimsJws(token.split(" ")[1])
+                .parseClaimsJws(s)
                 .getBody()
                 .getSubject()
                 .equals(userEmail);

@@ -22,9 +22,9 @@ public class AuthApiController {
         return ResponseEntity.ok(authService.login(loginRequestDto));
     }
 
-    @GetMapping("/api/auth/me")
+    @GetMapping("/api/auth/me/{userEmail}")
     public ResponseEntity<String> me(@RequestHeader("Authorization") String authorization,
-                                     @RequestBody String userEmail) {
+                                     @PathVariable String userEmail) {
 
         if (!jwtConfig.validateToken(authorization, userEmail)) {
             throw new AuthenticationError();
