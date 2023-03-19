@@ -1,36 +1,36 @@
 package nero.diary.global.config.auth.jwt;
 
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import javax.servlet.http.HttpServletRequest;
-import java.security.Key;
+import javax.crypto.SecretKey;
+import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 
 @Component
 @RequiredArgsConstructor
+@Getter
+@Slf4j
 public class JwtConfig {
-    private Key secretKey;
-    @Value("${JWT_EXPIRE_TIME}")
-    private long expireTime;
+    private SecretKey secretKey;
+    private final static String KEY = "9vQZSRBvJSowzIVIwqsa9cBvncsQkMMnLOa3z3r4Eek=";
+    private final long expireTime = 6048000L;
 
     @PostConstruct
     protected void init() {
-        this.secretKey = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+        this.secretKey = Keys.hmacShaKeyFor(Base64.getDecoder().decode(KEY));
     }
 
-    public String createToken(String userEmail, List<String> roleList) {
+    public String createToken(String userEmail) {
 
         return Jwts.builder()
-                .setClaims(getClaims(userEmail, roleList))
                 .setSubject(userEmail)
                 .setIssuedAt(getNowDate())
                 .setExpiration(new Date(getNowDate().getTime() + expireTime))
@@ -53,13 +53,10 @@ public class JwtConfig {
         if (!isBearer(token)) {
             return isBearer(token);
         }
-
-        String s = token.split(" ")[1];
-
-        return !Jwts.parserBuilder()
+        return Jwts.parserBuilder()
                 .setSigningKey(secretKey)
                 .build()
-                .parseClaimsJws(s)
+                .parseClaimsJws(token.split(" ")[1])
                 .getBody()
                 .getSubject()
                 .equals(userEmail);

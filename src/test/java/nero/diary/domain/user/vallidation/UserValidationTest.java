@@ -28,7 +28,7 @@ public class UserValidationTest {
     @AfterAll
     public static void close() {
         factory.close();
-        ;
+
     }
 
     @DisplayName("빈 문자열 전송시 에러 발생")

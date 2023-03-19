@@ -1,24 +1,21 @@
 package nero.diary.global.config.auth.jwt;
 
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.BDDMockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.*;
+import java.security.Key;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.BDDMockito.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -34,12 +31,9 @@ class JwtConfigTest {
     @DisplayName("secretKey 생성")
     @Test
     void init() {
-        String key = "6R6yuErcTCdNW7APsxJ2wPkCcJMVmtoC";
-        String secretKey = Base64.getEncoder().encodeToString(key.getBytes());
-
-        log.info(">>> {}",secretKey);
-
-        assertThat(secretKey).isNotEmpty();
+        config.init();
+        Key key = config.getSecretKey();
+        assertThat(key).isNotNull();
     }
 
     @DisplayName("토큰을 생성한다")
@@ -47,15 +41,42 @@ class JwtConfigTest {
     void createToken() {
         //given
         String testEmail = "tesEmail";
-        List<String> roleList = new ArrayList<>();
-        roleList.add("USER");
 
         //when
-        String token = config.createToken(testEmail, roleList);
+        String token = config.createToken(testEmail);
 
         //then
         assertThat(token).isNotEmpty();
     }
 
+    @DisplayName("토큰을 검증한다")
+    @Test
+    void validateToken() {
+        //given
+        String testEmail = "tesEmail";
+        String token = config.createToken(testEmail);
 
+        //when
+        boolean validateToken = config.validateToken("Bearer " + token, testEmail);
+
+        //then
+        assertThat(validateToken).isTrue();
+    }
+
+    @DisplayName("토큰을 검증이 실패한다")
+    @Test
+    void validateTokenFail() {
+        //given
+        String testEmail = "tesEmail";
+        String fail = "tesEmails";
+
+        String token = config.createToken(testEmail);
+
+        //when
+        boolean validateToken = config.validateToken("Bearer " + token, fail);
+
+        //then
+        assertThat(validateToken).isFalse();
+
+    }
 }

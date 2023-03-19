@@ -1,6 +1,6 @@
 ### 로그인
 
-POST http://localhost:8080/api/v1/login
+POST http://localhost:8080/api/auth/login
 Content-Type: application/json
 # Authorization: test
 
@@ -10,5 +10,6 @@ Content-Type: application/json
 }
 
 ### 토큰 조회
-GET http://localhost:8080/api/auth/me
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ3bnNndXI3NjV6QG5hdmVyLmNvbSIsInJvbGVzIjpbIlJPTEVfR1VFU1QiXSwiaWF0IjoxNjc4NDMyNDE4LCJleHAiOjE2Nzg0MzMwMjN9.U47ggk247VhybDkMS07EdcCASluulIG6g_OULBv8p1E
+GET http://localhost:8080/api/auth/me/{{userEmail}}
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ3bnNndXI3NjV6QG5hdmVyLmNvbSIsImlhdCI6MTY3OTIyNTAzNywiZXhwIjoxNjc5MjI1NjQyfQ.sGq8kCHNb1ApnzEaZPBlIs6h_FGAnyjmap6vsSBb_5c
+

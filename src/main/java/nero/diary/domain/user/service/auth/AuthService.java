@@ -34,7 +34,7 @@ public class AuthService {
             throw new InvalidSignInformation();
         }
 
-        String token = jwtConfig.createToken(loginRequestDto.getEmail(), Arrays.asList(user.getRole().getKey()));
+        String token = jwtConfig.createToken(loginRequestDto.getEmail());
         return new UserResponseDto(user, token);
     }
 }
