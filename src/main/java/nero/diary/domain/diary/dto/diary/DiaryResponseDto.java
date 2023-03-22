@@ -1,4 +1,4 @@
-package nero.diary.domain.diary.dto;
+package nero.diary.domain.diary.dto.diary;
 
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.Getter;

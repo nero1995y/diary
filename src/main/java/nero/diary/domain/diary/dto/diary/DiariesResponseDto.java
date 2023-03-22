@@ -1,4 +1,4 @@
-package nero.diary.domain.diary.dto;
+package nero.diary.domain.diary.dto.diary;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

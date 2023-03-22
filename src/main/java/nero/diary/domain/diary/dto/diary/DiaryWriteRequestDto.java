@@ -1,4 +1,4 @@
-package nero.diary.domain.diary.dto;
+package nero.diary.domain.diary.dto.diary;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -13,15 +13,15 @@ public class DiaryWriteRequestDto {
     private String name;
     private String content;
 
-    private String username;
+    private String userEmail;
 
     private User user;
 
     @Builder
-    public DiaryWriteRequestDto(String name, String content, String username, User user) {
+    public DiaryWriteRequestDto(String name, String content, String userEmail, User user) {
         this.name = name;
         this.content = content;
-        this.username = username;
+        this.userEmail = userEmail;
         this.user  = user;
     }
 
