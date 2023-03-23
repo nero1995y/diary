@@ -1,11 +1,9 @@
 package nero.diary.domain.diary.service;
 
-import nero.diary.domain.diary.dto.DiaryResponseDto;
-import nero.diary.domain.diary.dto.DiaryWriteRequestDto;
-import nero.diary.domain.diary.dto.search.DiarySearchCondition;
+import nero.diary.domain.diary.dto.diary.DiaryUpdateRequestDto;
+import nero.diary.domain.diary.dto.diary.DiaryWriteRequestDto;
 import nero.diary.domain.diary.entity.Diary;
 import nero.diary.domain.diary.repository.DiaryRepository;
-import nero.diary.domain.user.entity.User;
 import nero.diary.domain.user.service.UserService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,27 +12,26 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Optional;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.BDDMockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class DiaryServiceTest {
-
-    @Mock(name = "diaryRepository")
-    DiaryRepository diaryRepository;
-
-    @Mock(name = "userService")
-    UserService userService;
-
     @InjectMocks
     @Spy
     DiaryService diaryService;
+
+    @Mock
+    DiaryRepository diaryRepository;
+
+    @Mock
+    DiaryQueryService diaryQueryService;
+
+    @Mock
+    UserService userService;
+
 
     @DisplayName("다이어리를 등록한다")
     @Test
@@ -54,31 +51,49 @@ class DiaryServiceTest {
         verify(diaryRepository, times(1)).save(any());
     }
 
-    @DisplayName("다이어리를 이름으로 찾는다")
+    @DisplayName("다이어리를 업데이트 한다")
     @Test
-    void find() {
-        // given
-        User user = User.builder().username("nero").build();
-
-        Diary diary = Diary.builder()
-                .name("testTitle")
-                .content("test 내용")
-                .user(user)
+    void update() {
+        //given
+        DiaryUpdateRequestDto request = DiaryUpdateRequestDto.builder()
+                .name("updateTitle")
+                .content("updateTitle")
                 .build();
 
-        DiarySearchCondition condition = new DiarySearchCondition(diary.getName(), "","");
-        Pageable pageable = PageRequest.of(0, 1);
+        Diary diary = Diary.builder()
+                .name("testDiary")
+                .content("testContent")
+                .build();
 
-        List<DiaryResponseDto> items = new ArrayList<>();
-        items.add(new DiaryResponseDto(diary));
+        given(diaryRepository.findById(any()))
+                .willReturn(Optional.of(diary));
 
-        when(diaryRepository.search(any(), any())).thenReturn(new PageImpl<>(items, pageable, 10));
+        //when
+        diaryService.update(request);
 
-        // when
-        diaryService.findDiaryByUsername(condition, pageable);
+        //then
+        verify(diaryRepository, times(1)).findById(any());
+    }
 
-        // then
-        verify(diaryRepository, times(1)).search(
-                any(), any());
+    @DisplayName("다이어리를 삭제한다")
+    @Test
+    void delete() {
+        //given
+        Long diaryId = 1L;
+        String userEmail = "test@gmail.com";
+
+        Diary diary = Diary.builder()
+                .name("testDiary")
+                .content("testContent")
+                .build();
+
+        given(diaryRepository.findById(any()))
+                .willReturn(Optional.of(diary));
+
+        //when
+        diaryService.delete(diaryId, userEmail);
+
+        //then
+        verify(diaryRepository, times(1)).delete(diary);
     }
 }
