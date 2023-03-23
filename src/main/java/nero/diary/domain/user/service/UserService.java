@@ -58,8 +58,7 @@ public class UserService {
 
     public UserResponseDto findUserByEmail(String userEmail) {
 
-        User user = userRepository.findByEmail(userEmail)
-                .orElseThrow(UserNotFoundException::new);
+        User user = getUser(userEmail);
 
         return new UserResponseDto(user);
     }
@@ -80,8 +79,6 @@ public class UserService {
         userRepository.deleteById(findByUsername.getId());
     }
 
-
-
     public User getFindByUsername(String username) {
         return userRepository.findByUsername(username).
                 orElseThrow(UserNotFoundException::new);
@@ -91,5 +88,8 @@ public class UserService {
         return userRepository.findById(id)
                 .orElseThrow(UserNotFoundException::new);
     }
-
+    public User getUser(String userEmail) {
+        return userRepository.findByEmail(userEmail)
+                .orElseThrow(UserNotFoundException::new);
+    }
 }
