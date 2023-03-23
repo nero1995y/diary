@@ -16,7 +16,8 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Diary extends BaseTimeEntity {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "diary_name")
@@ -38,7 +39,8 @@ public class Diary extends BaseTimeEntity {
 
 
     @Builder
-    public Diary(String name, String content, User user, Category category) {
+    public Diary(Long id, String name, String content, User user, Category category) {
+        this.id = id;
         this.name = name;
         this.content = content;
         this.category = category;
@@ -56,15 +58,22 @@ public class Diary extends BaseTimeEntity {
         this.user = user;
     }
 
-
-    public void update(String name, String content, User user, Category category) {
-        this.name = name;
-        this.content = content;
-        this.user = user;
-        this.category = category;
+    public void update(String name, String content) {
+        updateName(name);
+        updateContent(content);
     }
+
+    public void updateName(String name) {
+        this.name = name;
+    }
+
+    public void updateContent(String content) {
+        this.content = content;
+    }
+
 
     public void updateCategory(Category category) {
         this.category = category;
     }
+
 }

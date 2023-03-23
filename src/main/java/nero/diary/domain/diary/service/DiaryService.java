@@ -1,49 +1,53 @@
 package nero.diary.domain.diary.service;
 
 import lombok.RequiredArgsConstructor;
-import nero.diary.domain.diary.dto.DiariesResponseDto;
-import nero.diary.domain.diary.dto.DiaryResponseDto;
-import nero.diary.domain.diary.dto.DiaryWriteRequestDto;
-import nero.diary.domain.diary.dto.search.DiarySearchCondition;
+import nero.diary.domain.diary.dto.diary.DiaryUpdateRequestDto;
+import nero.diary.domain.diary.dto.diary.DiaryWriteRequestDto;
 import nero.diary.domain.diary.entity.Diary;
+import nero.diary.domain.diary.exception.DiaryNotFoundException;
 import nero.diary.domain.diary.repository.DiaryRepository;
 import nero.diary.domain.user.entity.User;
 import nero.diary.domain.user.service.UserService;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@Transactional(readOnly = true)
+@Transactional
 @RequiredArgsConstructor
 public class DiaryService {
     private final DiaryRepository diaryRepository;
-
     private final UserService userService;
+    private final DiaryQueryService diaryQueryService;
 
-    @Transactional
     public void write(DiaryWriteRequestDto requestDto) {
-
-        Diary diary = getDiary(requestDto,
-                userService.getFindByUsername(requestDto.getUsername()));
-
+        User user = userService.getUser(requestDto.getUserEmail());
+        Diary diary = getDiary(requestDto, user);
         diaryRepository.save(diary);
-    }
-
-    public DiariesResponseDto findDiaryByUsername(DiarySearchCondition condition, Pageable pageable) {
-
-        userService.findUserByEmail(condition.getUserEmail());
-        Page<DiaryResponseDto> search = diaryRepository.search(condition, pageable);
-        return DiariesResponseDto.of(search);
     }
 
     private Diary getDiary(DiaryWriteRequestDto requestDto, User user) {
         return DiaryWriteRequestDto.builder()
                 .name(requestDto.getName())
-                .content(requestDto.getName())
+                .content(requestDto.getContent())
                 .user(user)
                 .build()
                 .toEntity();
+    }
+
+    public void update(DiaryUpdateRequestDto requestDto) {
+        diaryQueryService.findUserByEmail(requestDto.getUserEmail());
+
+        Diary diary = diaryRepository.findById(requestDto.getId())
+                .orElseThrow(DiaryNotFoundException::new);
+
+        diary.update(requestDto.getName(), requestDto.getContent());
+    }
+
+    public void delete(Long diaryId, String userEmail){
+        diaryQueryService.findUserByEmail(userEmail);
+
+        Diary diary = diaryRepository.findById(diaryId)
+                .orElseThrow(DiaryNotFoundException::new);
+        diaryRepository.delete(diary);
     }
 }
