@@ -1,6 +1,6 @@
 package nero.diary.domain.diary.repository.custom;
 
-import nero.diary.domain.diary.dto.DiaryResponseDto;
+import nero.diary.domain.diary.dto.diary.DiaryResponseDto;
 import nero.diary.domain.diary.dto.search.DiarySearchCondition;
 import nero.diary.domain.diary.entity.Diary;
 import nero.diary.domain.diary.repository.DiaryRepository;

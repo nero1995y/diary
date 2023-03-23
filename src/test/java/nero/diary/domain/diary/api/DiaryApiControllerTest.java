@@ -2,10 +2,11 @@ package nero.diary.domain.diary.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import nero.diary.domain.diary.dto.DiariesResponseDto;
-import nero.diary.domain.diary.dto.DiaryResponseDto;
-import nero.diary.domain.diary.dto.DiaryWriteRequestDto;
+import nero.diary.domain.diary.dto.diary.DiariesResponseDto;
+import nero.diary.domain.diary.dto.diary.DiaryResponseDto;
+import nero.diary.domain.diary.dto.diary.DiaryWriteRequestDto;
 import nero.diary.domain.diary.entity.Diary;
+import nero.diary.domain.diary.service.DiaryQueryService;
 import nero.diary.domain.diary.service.DiaryService;
 import nero.diary.domain.user.entity.Role;
 import nero.diary.domain.user.entity.User;
@@ -55,6 +56,9 @@ class DiaryApiControllerTest {
 
     @MockBean
     DiaryService diaryService;
+
+    @MockBean
+    DiaryQueryService diaryQueryService;
 
     @BeforeEach
     void setUp() {
@@ -121,7 +125,7 @@ class DiaryApiControllerTest {
         //Page<DiaryResponseDto> diaries
         DiariesResponseDto response = DiariesResponseDto.of(new PageImpl<>(diaryList));
 
-        given(diaryService.findDiaryByUsername(any(), any()))
+        given(diaryQueryService.findDiaryByUsername(any(), any()))
                 .willReturn(response);
 
         String json = objectMapper.writeValueAsString(request);
@@ -138,4 +142,45 @@ class DiaryApiControllerTest {
                 .andExpect(status().isOk())
                 .andDo(print());
     }
+
+    @DisplayName("GET diary single result")
+    @Test
+    @WithMockUser(roles = "USER")
+    void findById() throws Exception {
+        // given
+        User user = User.builder()
+                .username("nero")
+                .email("nero@gmail.com")
+                .role(Role.USER)
+                .build();
+
+        Diary request = Diary.builder()
+                .id(1L)
+                .name("메모용")
+                .content("다이어리 컨텐츠")
+                .user(user)
+                .build();
+
+        DiaryResponseDto dto = new DiaryResponseDto(request);
+
+        given(diaryQueryService.findById(request.getId(), user.getEmail()))
+                .willReturn(dto);
+
+        // when
+        ResultActions actions = mockMvc.perform(get("/api/v2/diary/{id}", 1L)
+                .param("userEmail", user.getEmail())
+                .contentType(APPLICATION_JSON));
+
+        // then
+        actions.andExpect(status().isOk())
+                .andExpect(content().contentType(APPLICATION_JSON))
+                .andDo(print());
+    }
+
+    @DisplayName("Pat")
+    @Test
+
+
+
+
 }
