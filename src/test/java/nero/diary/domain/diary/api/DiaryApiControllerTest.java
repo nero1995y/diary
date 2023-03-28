@@ -1,9 +1,11 @@
 package nero.diary.domain.diary.api;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import nero.diary.domain.diary.dto.diary.DiariesResponseDto;
 import nero.diary.domain.diary.dto.diary.DiaryResponseDto;
+import nero.diary.domain.diary.dto.diary.DiaryUpdateRequestDto;
 import nero.diary.domain.diary.dto.diary.DiaryWriteRequestDto;
 import nero.diary.domain.diary.entity.Diary;
 import nero.diary.domain.diary.service.DiaryQueryService;
@@ -34,8 +36,7 @@ import static org.mockito.BDDMockito.willDoNothing;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -68,7 +69,7 @@ class DiaryApiControllerTest {
     }
 
 
-    @DisplayName("POST diary api")
+    @DisplayName("POST 다이어리 등록한다.")
     @Test
     @WithMockUser(roles = "USER")
     void write() throws Exception {
@@ -100,7 +101,7 @@ class DiaryApiControllerTest {
                         .andDo(print());
     }
 
-    @DisplayName("GET diary List API")
+    @DisplayName("GET 다이어리 리스트를 조회한다.")
     @Test
     @WithMockUser(roles = "USER")
     void diaryList() throws Exception {
@@ -143,7 +144,7 @@ class DiaryApiControllerTest {
                 .andDo(print());
     }
 
-    @DisplayName("GET diary single result")
+    @DisplayName("GET 다이어리 단건을 조회 한다.")
     @Test
     @WithMockUser(roles = "USER")
     void findById() throws Exception {
@@ -163,7 +164,7 @@ class DiaryApiControllerTest {
 
         DiaryResponseDto dto = new DiaryResponseDto(request);
 
-        given(diaryQueryService.findById(request.getId(), user.getEmail()))
+        given(diaryQueryService.findDiary(request.getId(), user.getEmail()))
                 .willReturn(dto);
 
         // when
@@ -177,10 +178,27 @@ class DiaryApiControllerTest {
                 .andDo(print());
     }
 
-    @DisplayName("Pat")
+    @DisplayName("PATCH 다이어리를 업데이트 한다.")
     @Test
+    @WithMockUser(roles = "USER")
+    void update() throws Exception {
+        // given
+        DiaryUpdateRequestDto request = DiaryUpdateRequestDto.builder()
+                .userEmail("nero1995y@gmail.com")
+                .name("TestTitle")
+                .content("TestContent")
+                .build();
 
+        String json = objectMapper.writeValueAsString(request);
 
-
+        // when
+        ResultActions actions = mockMvc.perform(patch("/api/v2/diary/{id}", 1L)
+                .with(csrf())
+                .content(json)
+                .contentType(APPLICATION_JSON));
+        // then
+        actions.andExpect(status().isOk())
+                .andDo(print());
+    }
 
 }

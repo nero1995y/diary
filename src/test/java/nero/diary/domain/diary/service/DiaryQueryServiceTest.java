@@ -55,7 +55,7 @@ class DiaryQueryServiceTest {
                 .findUserByEmail(userEmail);
 
         // when
-        DiaryResponseDto response = diaryQueryService.findById(diaryId, userEmail);
+        DiaryResponseDto response = diaryQueryService.findDiary(diaryId, userEmail);
 
         // then
         Assertions.assertThat(response.getContent()).isEqualTo(diary.getContent());

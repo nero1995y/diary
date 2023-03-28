@@ -30,16 +30,23 @@ public class DiaryQueryService {
         return DiariesResponseDto.of(search);
     }
 
-    public DiaryResponseDto findById(Long DiaryId, String userEmail) {
+    public DiaryResponseDto findDiary(Long diaryId, String userEmail) {
         findUserByEmail(userEmail);
+        Diary diary = findById(diaryId);
+        return getDiaryResponseDto(diary);
+    }
 
-        Diary diary = diaryRepository.findById(DiaryId)
+    public Diary findById(Long diaryId) {
+        return diaryRepository.findById(diaryId)
                 .orElseThrow(DiaryNotFoundException::new);
+    }
 
+    private DiaryResponseDto getDiaryResponseDto(Diary diary) {
         return new DiaryResponseDto(diary);
     }
 
     public void findUserByEmail(String userEmail) {
         userService.findUserByEmail(userEmail);
     }
+
 }

@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nero.diary.domain.diary.dto.diary.DiariesResponseDto;
 import nero.diary.domain.diary.dto.diary.DiaryResponseDto;
+import nero.diary.domain.diary.dto.diary.DiaryUpdateRequestDto;
 import nero.diary.domain.diary.dto.diary.DiaryWriteRequestDto;
 import nero.diary.domain.diary.dto.search.DiarySearchCondition;
 import nero.diary.domain.diary.service.DiaryQueryService;
@@ -36,7 +37,14 @@ public class DiaryApiController {
     @GetMapping("/api/v2/diary/{id}")
     public ResponseEntity<DiaryResponseDto> diarySingle(@PathVariable Long id, String userEmail) {
 
-        return ResponseEntity.ok(diaryQueryService.findById(id, userEmail));
+        return ResponseEntity.ok(diaryQueryService.findDiary(id, userEmail));
     }
 
+    @PatchMapping("/api/v2/diary/{id}")
+    public ResponseEntity<Void> diaryUpdate(@PathVariable Long id,
+                                            DiaryUpdateRequestDto diaryUpdateRequestDto) {
+
+        diaryService.update(id,diaryUpdateRequestDto);
+        return ResponseEntity.ok().build();
+    }
 }

@@ -34,11 +34,10 @@ public class DiaryService {
                 .toEntity();
     }
 
-    public void update(DiaryUpdateRequestDto requestDto) {
-        diaryQueryService.findUserByEmail(requestDto.getUserEmail());
+    public void update(Long id, DiaryUpdateRequestDto requestDto) {
 
-        Diary diary = diaryRepository.findById(requestDto.getId())
-                .orElseThrow(DiaryNotFoundException::new);
+        diaryQueryService.findUserByEmail(requestDto.getUserEmail());
+        Diary diary = diaryQueryService.findById(id);
 
         diary.update(requestDto.getName(), requestDto.getContent());
     }

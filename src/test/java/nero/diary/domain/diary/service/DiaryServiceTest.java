@@ -1,5 +1,6 @@
 package nero.diary.domain.diary.service;
 
+import lombok.extern.slf4j.Slf4j;
 import nero.diary.domain.diary.dto.diary.DiaryUpdateRequestDto;
 import nero.diary.domain.diary.dto.diary.DiaryWriteRequestDto;
 import nero.diary.domain.diary.entity.Diary;
@@ -15,9 +16,12 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.*;
+import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
+@Slf4j
 class DiaryServiceTest {
     @InjectMocks
     @Spy
@@ -31,7 +35,6 @@ class DiaryServiceTest {
 
     @Mock
     UserService userService;
-
 
     @DisplayName("다이어리를 등록한다")
     @Test
@@ -57,7 +60,7 @@ class DiaryServiceTest {
         //given
         DiaryUpdateRequestDto request = DiaryUpdateRequestDto.builder()
                 .name("updateTitle")
-                .content("updateTitle")
+                .content("updateContent")
                 .build();
 
         Diary diary = Diary.builder()
@@ -65,14 +68,16 @@ class DiaryServiceTest {
                 .content("testContent")
                 .build();
 
-        given(diaryRepository.findById(any()))
-                .willReturn(Optional.of(diary));
+        doReturn(diary)
+                .when(diaryQueryService)
+                .findById(any());
 
         //when
-        diaryService.update(request);
+        diaryService.update(1L, request);
 
         //then
-        verify(diaryRepository, times(1)).findById(any());
+        verify(diaryQueryService, times(1)).findById(any());
+        assertThat(diary.getName()).isEqualTo(request.getName());
     }
 
     @DisplayName("다이어리를 삭제한다")
@@ -87,7 +92,7 @@ class DiaryServiceTest {
                 .content("testContent")
                 .build();
 
-        given(diaryRepository.findById(any()))
+        given(diaryRepository.findById(diaryId))
                 .willReturn(Optional.of(diary));
 
         //when
