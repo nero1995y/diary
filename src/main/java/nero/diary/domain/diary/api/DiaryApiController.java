@@ -42,10 +42,18 @@ public class DiaryApiController {
     }
 
     @PatchMapping("/api/v2/diary/{id}")
-    public ResponseEntity<Void> diaryUpdate(@PathVariable Long id,
-                                            @RequestBody DiaryUpdateRequestDto diaryUpdateRequestDto) {
+    public ResponseEntity<Void> update(@PathVariable Long id,
+                                       @RequestBody DiaryUpdateRequestDto diaryUpdateRequestDto) {
 
-        diaryService.update(id,diaryUpdateRequestDto);
+        diaryService.update(id, diaryUpdateRequestDto);
         return ResponseEntity.ok().build();
     }
+
+    @DeleteMapping("/api/v2/diary/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id,
+                                       @RequestParam String userEmail) {
+        diaryService.delete(id, userEmail);
+        return ResponseEntity.noContent().build();
+    }
+
 }
