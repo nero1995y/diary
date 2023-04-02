@@ -15,6 +15,7 @@ import nero.diary.domain.user.entity.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.InOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -24,6 +25,7 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.util.ArrayList;
@@ -33,8 +35,10 @@ import static org.hamcrest.core.Is.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willDoNothing;
+import static org.mockito.Mockito.*;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -199,6 +203,26 @@ class DiaryApiControllerTest {
         // then
         actions.andExpect(status().isOk())
                 .andDo(print());
+    }
+
+    @DisplayName("delete 다이어리를 삭제 한다.")
+    @Test
+    @WithMockUser(roles = "USER")
+    void deleteTest() throws Exception{
+        // given
+        Long diaryId = 1L;
+        String  userEmail = "test@email.com";
+
+        // when
+        mockMvc.perform(delete("/api/v2/diary/{id}", diaryId)
+                .param("userEmail", userEmail)
+                .with(csrf()))
+
+        // then
+                .andExpect(status().is2xxSuccessful())
+                .andDo(print());
+
+        verify(diaryService, times(1)).delete(any(), any());
     }
 
 }
