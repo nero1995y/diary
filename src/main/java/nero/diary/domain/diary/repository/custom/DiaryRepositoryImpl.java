@@ -4,7 +4,7 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import nero.diary.domain.diary.dto.diary.DiaryResponseDto;
-import nero.diary.domain.diary.dto.QDiaryResponseDto;
+import nero.diary.domain.diary.dto.diary.QDiaryResponseDto;
 import nero.diary.domain.diary.dto.search.DiarySearchCondition;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -44,6 +44,7 @@ public class DiaryRepositoryImpl implements DiaryRepositoryCustom {
                         contentEq(condition.getContext()),
                         userEmailEq(condition.getUserEmail())
                 )
+                .orderBy(diary.id.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();

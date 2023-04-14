@@ -154,17 +154,17 @@ class CategoryServiceTest {
                 .name("tesCategory")
                 .build();
 
-        given(categoryRepository.findByName(any()))
+        given(categoryRepository.findById(any()))
                 .willReturn(Optional.of(category));
 
         doNothing().when(categoryRepository).deleteById(anyLong());
 
         //when
-        categoryService.delete(category.getName());
+        categoryService.delete(category.getId());
 
         //then
         verify(categoryRepository, times(1))
-                .findByName(any());
+                .findById(any());
 
         verify(categoryRepository, times(1))
                 .deleteById(any());

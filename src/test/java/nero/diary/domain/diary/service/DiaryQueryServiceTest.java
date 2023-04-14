@@ -74,11 +74,16 @@ class DiaryQueryServiceTest {
                 .user(user)
                 .build();
 
-        DiarySearchCondition condition = new DiarySearchCondition(diary.getName(), "", "");
+        String userEmail = "testEmail@gmail.com";
+
+        DiarySearchCondition condition = new DiarySearchCondition(diary.getName(), "", userEmail);
         Pageable pageable = PageRequest.of(0, 1);
 
         List<DiaryResponseDto> items = new ArrayList<>();
         items.add(new DiaryResponseDto(diary));
+
+        willDoNothing().given(diaryQueryService)
+                .findUserByEmail(condition.getUserEmail());
 
         when(diaryRepository.search(any(), any())).thenReturn(new PageImpl<>(items, pageable, 10));
 
@@ -88,6 +93,5 @@ class DiaryQueryServiceTest {
         // then
         verify(diaryRepository, times(1)).search(
                 any(), any());
-
     }
 }

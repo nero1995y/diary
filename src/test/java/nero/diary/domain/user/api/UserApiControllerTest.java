@@ -51,6 +51,7 @@ class UserApiControllerTest {
         // given
         UserSaveRequestDto request = UserSaveRequestDto.builder()
                 .username("nero")
+                .password("12345")
                 .email("wnsgur765z@naver.com")
                 .picture("testPicture")
                 .build();

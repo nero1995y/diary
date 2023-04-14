@@ -48,6 +48,7 @@ class UserServiceTest {
         // given
         UserSaveRequestDto requestDto = UserSaveRequestDto.builder()
                 .username("nero")
+                .password("12345")
                 .email("test@gmail.com")
                 .picture("testPicture")
                 .build();
@@ -72,12 +73,14 @@ class UserServiceTest {
         // given
         UserSaveRequestDto requestDto = UserSaveRequestDto.builder()
                 .username("nero")
+                .password("12345")
                 .email("test@gmail.com")
                 .picture("testPicture")
                 .build();
 
         UserSaveRequestDto requestDto2 = UserSaveRequestDto.builder()
                 .username("nero")
+                .password("12345")
                 .email("test@gmail.com")
                 .picture("testPicture")
                 .build();
@@ -97,6 +100,7 @@ class UserServiceTest {
 
         UserSaveRequestDto requestDto2 = UserSaveRequestDto.builder()
                 .username("nero2")
+                .password("12345")
                 .email("test2@gmail.com")
                 .picture("testPicture")
                 .build();
@@ -154,6 +158,7 @@ class UserServiceTest {
     private UserSaveRequestDto getUserSaveRequestDto() {
         return UserSaveRequestDto.builder()
                 .username("nero")
+                .password("12345")
                 .email("test@gmail.com")
                 .picture("testPicture")
                 .build();

@@ -174,7 +174,7 @@ class CategoryApiControllerTest {
                 .andDo(print());
     }
 
-    @DisplayName("DELTE category api")
+    @DisplayName("DELETE category api")
     @Test
     @WithMockUser(roles = "USER")
     void deleteApi() throws Exception {
@@ -184,13 +184,10 @@ class CategoryApiControllerTest {
                 .name("testCategory")
                 .build();
 
-        String json = objectMapper.writeValueAsString(category.getName());
-
-        willDoNothing().given(categoryService).delete(category.getName());
+        willDoNothing().given(categoryService).delete(category.getId());
         //when
-        ResultActions actions = mockMvc.perform(delete("/api/v2/category")
-                .with(csrf())
-                .content(json));
+        ResultActions actions = mockMvc.perform(delete("/api/v2/category/{id}",category.getId())
+                .with(csrf()));
 
         //then
         actions.andExpect(status().isOk())
