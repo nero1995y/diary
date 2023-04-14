@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import nero.diary.domain.diary.dto.category.CategoryListResponseDto;
 import nero.diary.domain.diary.dto.category.CategoryResponseDto;
 import nero.diary.domain.diary.dto.category.CategorySaveRequestDto;
+import nero.diary.domain.diary.dto.category.CategoryUpdateRequestDto;
 import nero.diary.domain.diary.service.CategoryService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -31,14 +32,14 @@ public class CategoryApiController {
     }
 
     @PatchMapping("/api/v2/category/{id}")
-    public ResponseEntity<Void> update(@PathVariable Long id, @RequestBody String name) {
-        categoryService.update(id, name);
+    public ResponseEntity<Void> update(@PathVariable Long id, @RequestBody CategoryUpdateRequestDto request) {
+        categoryService.update(id, request.getName());
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/api/v2/category")
-    public ResponseEntity<Void> remove(@RequestBody String name) {
-        categoryService.delete(name);
+    @DeleteMapping("/api/v2/category/{id}")
+    public ResponseEntity<Void> remove(@PathVariable Long id) {
+        categoryService.delete(id);
         return ResponseEntity.ok().build();
     }
 

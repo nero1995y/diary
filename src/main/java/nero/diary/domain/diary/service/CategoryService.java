@@ -57,9 +57,9 @@ public class CategoryService {
     }
 
     @Transactional
-    public void delete(String name) {
-
-        Category category = getCategory(name);
+    public void delete(Long id) {
+        Category category = categoryRepository.findById(id)
+                .orElseThrow(CategoryNotFoundException::new);
 
         categoryRepository.deleteById(category.getId());
     }
