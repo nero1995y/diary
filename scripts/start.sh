@@ -7,8 +7,6 @@ source ${ABSDIR}/profile.sh
 REPOSITORY="/home/ec2-user/app/step3"
 PROJECT_NAME="diary"
 
-TIME_NOW=$(date +%c)
-
 # build 파일 복사
 echo "> Build 파일 복사"
 echo "> cp $REPOSITORY/zip/*.jar $REPOSITORY/"
@@ -24,10 +22,12 @@ echo "> $JAR_NAME 에 실행권한 추가"
 
 chomod +x $JAR_NAME
 
+echo "> $JAR_NAME 실행"
+
 IDLE_PROFILE=$(find_idle_profile)
 
 # jar 파일 실행
-echo "$TIME_NOW > $JAR_NAME 를 profile=$IDLE_PROFILE 로 실행합니다."
+echo "$JAR_NAME 를 profile=$IDLE_PROFILE 로 실행합니다."
 
 nohup java -jar \
   -Dspring.config.location=classpath:/application.yml,classpath:/application-$IDLE_PROFILE.yml,/home/ec2-user/app/application-oauth.yml,/home/ec2-user/app/application-real-db.yml \
