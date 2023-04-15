@@ -34,7 +34,7 @@ public class UserApiController {
     }
 
     @GetMapping("api/v1/user/{id}")
-    public ResponseEntity<UserResponseDto> findByUserId(@PathVariable Long id){
+    public ResponseEntity<UserResponseDto> findByUserId(@PathVariable Long id) {
 
         UserResponseDto response = userService.findUserId(id);
 
@@ -43,7 +43,7 @@ public class UserApiController {
 
     @PatchMapping("api/v1/user/{id}")
     public ResponseEntity<Void> update(@PathVariable Long id,
-                                       @RequestBody @Valid UserUpdateRequestDto requestDto){
+                                       @RequestBody @Valid UserUpdateRequestDto requestDto) {
 
         userService.update(id, requestDto);
 
@@ -51,8 +51,8 @@ public class UserApiController {
     }
 
     @DeleteMapping("api/v1/user/{username}")
-    public ResponseEntity<Void> delete(@PathVariable String username){
+    public ResponseEntity<Void> delete(@PathVariable String username) {
         userService.remove(username);
-        return  ResponseEntity.ok().build();
+        return ResponseEntity.ok().build();
     }
 }
