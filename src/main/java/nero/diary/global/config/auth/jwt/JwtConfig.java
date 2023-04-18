@@ -2,10 +2,12 @@ package nero.diary.global.config.auth.jwt;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.security.Keys;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import nero.diary.global.exception.TokenValueException;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -50,16 +52,26 @@ public class JwtConfig {
 
     public boolean validateToken(String token, String userEmail) {
 
+        boolean validToken;
+
         if (!isBearer(token)) {
             return isBearer(token);
         }
-        return Jwts.parserBuilder()
-                .setSigningKey(secretKey)
-                .build()
-                .parseClaimsJws(token.split(" ")[1])
-                .getBody()
-                .getSubject()
-                .equals(userEmail);
+
+        try {
+            validToken = Jwts.parserBuilder()
+                    .setSigningKey(secretKey)
+                    .build()
+                    .parseClaimsJws(token.split(" ")[1])
+                    .getBody()
+                    .getSubject()
+                    .equals(userEmail);
+
+        } catch (MalformedJwtException e) {
+            throw new TokenValueException();
+        }
+
+        return validToken;
     }
 
     private boolean isBearer(String token) {
