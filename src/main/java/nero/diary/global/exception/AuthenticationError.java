@@ -5,17 +5,14 @@ import lombok.Getter;
 @Getter
 public class AuthenticationError extends GlobalException{
 
-    private static final String MESSEAGE = "인증 오류입니다";
-
-    public String fieldName;
-    public String message;
+    private static final String MESSAGE = "인증 오류입니다";
 
     public AuthenticationError() {
-        super(MESSEAGE);
+        super(MESSAGE);
     }
 
     public AuthenticationError(String fieldName, String message) {
-        super(MESSEAGE);
+        super(MESSAGE);
         addValidation(fieldName, message);
     }
 
