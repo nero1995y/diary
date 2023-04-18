@@ -26,7 +26,7 @@ public class AuthApiController {
     public ResponseEntity<String> me(@RequestHeader("Authorization") String authorization,
                                      @PathVariable String userEmail) {
 
-        if (!jwtConfig.validateToken(authorization, userEmail)) {
+        if (authorization.equals("null") || !jwtConfig.validateToken(authorization, userEmail)) {
             throw new AuthenticationError();
         }
 
