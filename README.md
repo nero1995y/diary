@@ -6,6 +6,9 @@
 
 [데모 사이트 링크](https://black-diary.netlify.app)
 
+- 상세내용 노션 링크
+  - https://sleet-termite-41e.notion.site/bd7a5743da1845aa8a6dda490d44bc44
+
 ### 기술 스택
 ***
 #### 백엔드
