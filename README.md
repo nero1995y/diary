@@ -4,7 +4,7 @@
 - 자신의 일기를 기록하는 웹 어플리케이션입니다.
 원하는 것을 기록하고 저장하는 공간입니다. 
 
-* [데모(예정)](https://docs.gradle.org)
+[데모 사이트 링크](https://black-diary.netlify.app)
 
 ### 기술 스택
 ***
