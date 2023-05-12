@@ -4,7 +4,8 @@
 - 자신의 일기를 기록하는 웹 어플리케이션입니다.
 원하는 것을 기록하고 저장하는 공간입니다. 
 
-[데모 사이트 링크](https://black-diary.netlify.app)
+- [데모 사이트 링크](https://black-diary.netlify.app)
+  - AWS 비용 문제로 개선 중에 있습니다. 
 
 - 상세내용 노션 링크
   - https://sleet-termite-41e.notion.site/bd7a5743da1845aa8a6dda490d44bc44
